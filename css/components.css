@@ -1,0 +1,246 @@
+/* components.css
+ * -------------------------------------------------------------
+ * Einzelne Bausteine: Wort-/Bildmarke, Bild-Platzhalter,
+ * olivgrüne Panels, Event-/Preiszeilen, Buttons.
+ * -------------------------------------------------------------
+ */
+
+/* ===== Wort-/Bildmarke (Logo + Schriftzug) ===== */
+.brand {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--color-text);
+}
+.brand__emblem {
+  width: 96px;
+  height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #c8aa5b, var(--color-gold-strong));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.18), var(--shadow);
+  margin-bottom: 1rem;
+}
+.brand__w {
+  font-family: var(--font-serif);
+  font-size: 2.6rem;
+  font-style: italic;
+  color: #fff;
+  line-height: 1;
+}
+.brand__img {
+  width: clamp(120px, 16vw, 190px);
+  height: auto;
+  margin-bottom: 1rem;
+}
+.brand__top {
+  font-family: var(--font-serif);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 1rem;
+}
+.brand__main {
+  font-family: var(--font-serif);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 400;
+  line-height: 1.1;
+  font-size: clamp(1.6rem, 4.5vw, 2.9rem);
+}
+.brand__rule {
+  width: 150px;
+  height: 1px;
+  background: var(--color-gold-strong);
+  margin: 0.7rem 0;
+}
+.brand__sub {
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: var(--color-text-soft);
+  padding-left: 0.42em; /* gleicht das letter-spacing optisch aus */
+}
+/* große Variante im Hero */
+.brand--lg .brand__emblem { width: 120px; height: 88px; }
+.brand--lg .brand__w { font-size: 3.3rem; }
+
+/* ===== Bild & blauer Platzhalter ===== */
+.media {
+  overflow: hidden;
+  position: relative;
+}
+.media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+}
+.split:hover .media img {
+  transform: scale(1.04);
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: #eaf2fb;
+  text-align: center;
+  padding: 1.5rem;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.06) 0 14px,
+      rgba(255, 255, 255, 0) 14px 28px
+    ),
+    linear-gradient(135deg, var(--color-ph-a), var(--color-ph-b));
+}
+.placeholder__icon {
+  font-size: 1.8rem;
+  opacity: 0.85;
+}
+.placeholder__label {
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  opacity: 0.95;
+}
+
+/* ===== Olivgrünes Info-Panel ===== */
+.panel {
+  position: relative;
+  background: var(--color-olive);
+  color: var(--color-text-light);
+  padding: clamp(1.8rem, 4vw, 3.2rem) clamp(1.6rem, 4vw, 3.2rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+/* dezente Textur über dem Panel */
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--noise);
+  opacity: 0.05;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+.panel > * {
+  position: relative; /* über der Textur */
+}
+.panel__title {
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+  margin-bottom: 1.4rem;
+}
+.panel__block {
+  margin-bottom: 1.4rem;
+}
+.panel__sub {
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  margin-top: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+.panel__line {
+  font-size: 0.98rem;
+}
+.panel__line--strong {
+  font-weight: 700;
+}
+.contact {
+  font-style: normal; /* <address> ist sonst kursiv */
+}
+.panel__line a {
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  transition: border-color 0.25s var(--ease);
+}
+.panel__line a:hover {
+  border-color: #fff;
+}
+.panel__text {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  max-width: 46ch;
+}
+.panel__note {
+  font-size: 0.95rem;
+  margin-top: 0.6rem;
+  opacity: 0.95;
+}
+
+/* Event-Zeile: Tag | Datum | Uhrzeit */
+.event-row {
+  display: grid;
+  grid-template-columns: 7.5rem 6.5rem auto;
+  gap: 0.5rem;
+  font-size: 0.98rem;
+  padding: 0.12rem 0;
+}
+
+/* Preis-Zeile: Name ........ Preis */
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.98rem;
+  padding: 0.12rem 0;
+}
+.price-row__name {
+  flex: 1 1 auto;
+}
+.price-row__price {
+  white-space: nowrap;
+}
+.price-row__deposit {
+  font-size: 0.82rem;
+  opacity: 0.85;
+}
+
+/* QR-Code-Platzhalter im Kontakt-Panel (klein & quadratisch) */
+.qr {
+  width: 120px;
+  height: 120px;
+  margin: 0.6rem 0 1.1rem;
+  border-radius: var(--radius);
+}
+.qr.placeholder {
+  padding: 0.5rem;
+}
+.qr .placeholder__icon { font-size: 1.2rem; }
+.qr .placeholder__label { font-size: 0.7rem; }
+
+/* ===== Buttons ===== */
+.btn {
+  display: inline-block;
+  background: var(--color-olive);
+  color: #fff;
+  text-decoration: none;
+  padding: 0.85rem 1.6rem;
+  border-radius: var(--radius);
+  letter-spacing: 0.06em;
+  font-size: 0.95rem;
+  transition: transform 0.2s var(--ease), background 0.25s var(--ease);
+}
+.btn:hover {
+  background: var(--color-olive-dark);
+  transform: translateY(-2px);
+}
+.btn--ghost {
+  background: transparent;
+  color: var(--color-olive-dark);
+  border: 1px solid var(--color-olive);
+}
+.btn--ghost:hover {
+  background: var(--color-olive);
+  color: #fff;
+}
