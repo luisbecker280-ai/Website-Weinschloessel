@@ -120,6 +120,49 @@
    Schwarz-Weiß möchtet, hier wieder einen Filter setzen, z. B.:
    .hero__media .media__img { filter: grayscale(100%) contrast(1.05); } */
 
+/* ===== Schmaler Karten-Streifen (Speise- & Weinkarte) ===== */
+.cards-strip {
+  position: relative;
+  background: var(--color-olive);
+  color: var(--color-text-light);
+  overflow: hidden;
+  text-align: center;
+  /* bewusst SCHMAL: deutlich weniger hoch als die normalen Zeilen */
+  padding: clamp(1.4rem, 3vw, 2.2rem) 1.25rem;
+}
+.cards-strip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--noise);
+  opacity: 0.05;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+.cards-strip__inner {
+  position: relative;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+}
+.cards-strip__title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: clamp(1.3rem, 2.6vw, 1.9rem);
+  margin: 0;
+}
+.cards-strip__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+}
+
 /* ===== Geteilte Zeile: Bild + olivgrünes Panel ===== */
 .split {
   display: flex;
@@ -186,6 +229,22 @@
   transition: color 0.25s var(--ease);
 }
 .site-footer__links a:hover {
+  color: var(--color-gold);
+}
+/* "Cookie-Einstellungen" ist ein Button, sieht aber aus wie ein Link */
+.site-footer__cookie {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: #cfcdc6;
+  font: inherit;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.25s var(--ease);
+}
+.site-footer__cookie:hover {
   color: var(--color-gold);
 }
 

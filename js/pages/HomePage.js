@@ -25,6 +25,7 @@ export class HomePage extends Page {
     const c = content;
     return `
       ${this._hero(c.hero)}
+      ${this._karten(c.karten)}
       ${this._oeffnungszeiten(c.oeffnungszeiten)}
       ${this._events(c.events)}
       ${this._prodotto(c.prodotto)}
@@ -43,6 +44,23 @@ export class HomePage extends Page {
           ${brandMark("lg", site.logo.src)}
         </div>
         ${mediaBlock(h.image, "hero__media")}
+      </section>`;
+  }
+
+  /* ---------- Karten-Streifen (schmal, olivgrün) ---------- */
+  _karten(k) {
+    const buttons = k.items
+      .map(
+        (it) =>
+          `<a class="btn btn--on-olive" href="#${it.route}" data-route="${it.route}">${it.label}</a>`
+      )
+      .join("");
+    return `
+      <section class="cards-strip" id="karten" data-reveal>
+        <div class="cards-strip__inner">
+          <h2 class="cards-strip__title">${k.title}</h2>
+          <div class="cards-strip__actions">${buttons}</div>
+        </div>
       </section>`;
   }
 

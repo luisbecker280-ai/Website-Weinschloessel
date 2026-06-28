@@ -21,10 +21,12 @@ import { Router } from "./core/Router.js";
 import { Navbar } from "./core/Navbar.js";
 import { Footer } from "./core/Footer.js";
 import { CookieConsent } from "./core/CookieConsent.js";
+import { content } from "./data/content.js";
 
 import { HomePage } from "./pages/HomePage.js";
 import { ImpressumPage } from "./pages/ImpressumPage.js";
 import { DatenschutzPage } from "./pages/DatenschutzPage.js";
+import { PdfPage } from "./pages/PdfPage.js";
 
 class App {
   constructor() {
@@ -42,6 +44,8 @@ class App {
     // 2) Seiten beim Router anmelden ...
     this.router
       .register("home", new HomePage(this))
+      .register("speisekarte", new PdfPage(this, content.speisekarte))
+      .register("weinkarte", new PdfPage(this, content.weinkarte))
       .register("impressum", new ImpressumPage(this))
       .register("datenschutz", new DatenschutzPage(this));
 
@@ -50,6 +54,15 @@ class App {
 
     // 4) ... und den Datenschutz-Hinweis zeigen (falls noch nicht entschieden)
     this.consent.render();
+
+    // 5) Über den Footer-Link "Cookie-Einstellungen" lässt sich der
+    //    Hinweis jederzeit erneut öffnen (Einwilligung ändern/widerrufen).
+    document.addEventListener("click", (e) => {
+      if (e.target.closest("[data-cookie-settings]")) {
+        e.preventDefault();
+        this.consent.openSettings();
+      }
+    });
   }
 }
 

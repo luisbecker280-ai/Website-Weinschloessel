@@ -54,6 +54,27 @@ export const content = {
     image: { label: "Innenraum / Lounge", src: "assets/img/innenraum.jpg" },
   },
 
+  /* ---------- KARTEN-STREIFEN (schmal, olivgrün, zwischen Hero & Öffnungszeiten) ----------
+   * Die Buttons öffnen die Karten ALS SEITE INNERHALB der Website
+   * (eingebettetes PDF), nicht in einem separaten Tab. */
+  karten: {
+    title: "Unsere Karten",
+    items: [
+      { label: "Speisekarte", route: "speisekarte" },
+      { label: "Weinkarte",   route: "weinkarte" },
+    ],
+  },
+
+  /* PDF-Dateien der Karten (liegen in assets/pdf/). */
+  speisekarte: {
+    title: "Speisekarte",
+    pdf: "assets/pdf/speisekarte.pdf",
+  },
+  weinkarte: {
+    title: "Weinkarte",
+    pdf: "assets/pdf/weinkarte.pdf",
+  },
+
   /* ---------- ÖFFNUNGSZEITEN ---------- */
   oeffnungszeiten: {
     title: "Öffnungszeiten",
@@ -169,8 +190,7 @@ export const content = {
 
   /* ---------- FOOTER ---------- */
   footer: {
-    // TODO: echte Facebook-Adresse eintragen, z. B. "https://www.facebook.com/..."
-    facebookUrl: "#",
+    facebookUrl: "https://www.facebook.com/Ristorante-Weinschl%C3%B6ssel-189146684551795/",
   },
 
   /* ---------- IMPRESSUM ---------- */

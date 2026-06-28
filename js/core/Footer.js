@@ -31,6 +31,7 @@ export class Footer {
         <nav class="site-footer__links" aria-label="Rechtliches">
           <a href="#impressum" data-route="impressum">Impressum</a>
           <a href="#datenschutz" data-route="datenschutz">Datenschutzerklärung</a>
+          <button type="button" class="site-footer__cookie" data-cookie-settings>Cookie-Einstellungen</button>
         </nav>
       </div>`;
   }

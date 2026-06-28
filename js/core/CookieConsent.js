@@ -42,9 +42,25 @@ export class CookieConsent {
     return CookieConsent.state() === "accepted";
   }
 
-  /** Banner anzeigen – aber nur, wenn noch keine Entscheidung vorliegt. */
+  /** Beim Seitenstart: Banner nur zeigen, wenn noch keine Entscheidung vorliegt. */
   render() {
     if (CookieConsent.state()) return; // schon entschieden -> nichts tun
+    this._build();
+  }
+
+  /** Hinweis erneut öffnen (z. B. über "Cookie-Einstellungen" im Footer). */
+  openSettings() {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      /* ignorieren */
+    }
+    if (!this.el || !document.body.contains(this.el)) this._build();
+  }
+
+  /** Den Banner tatsächlich aufbauen und einblenden. */
+  _build() {
+    if (this.el && document.body.contains(this.el)) return; // schon sichtbar
 
     this.el = document.createElement("div");
     this.el.className = "consent";
