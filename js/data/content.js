@@ -20,10 +20,10 @@
 /* Allgemeine Angaben zur Seite */
 export const site = {
   name: "Ristorante Weinschlössel",
-  // Logo: zeigt die Datei assets/img/logo.png (das vollständige Logo mit
+  // Logo: zeigt die Datei assets/img/logo.jpg (das vollständige Logo mit
   // Schriftzug). Fehlt die Datei, wird ersatzweise das gold-Oval mit "W"
   // samt Schriftzug per CSS gezeichnet.
-  logo: { src: "assets/img/logo.png" },
+  logo: { src: "assets/img/logo.jpg" },
 };
 
 /* Die obere Navigationsleiste.
