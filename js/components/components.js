@@ -37,8 +37,12 @@ export function mediaBlock(image, extraClass = "", opts = {}) {
 
   // onerror: schlägt das Laden fehl, entfernt sich das Bild selbst –
   // der blaue Platzhalter darunter wird dann wieder sichtbar.
+  // onload: sobald das Foto geladen ist, blenden wir den blauen Platzhalter
+  //         aus (sonst schimmert er z. B. beim QR-Code am Rand durch).
+  // onerror: lädt das Foto nicht, entfernt es sich -> Platzhalter bleibt.
   const img = hasImg
     ? `<img class="media__img" src="${image.src}" alt="${label}" loading="lazy"
+            onload="this.closest('.media').classList.add('media--loaded')"
             onerror="this.remove()">`
     : "";
 

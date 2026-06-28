@@ -96,6 +96,11 @@
   will-change: transform;
 }
 
+/* Sobald das echte Foto geladen ist, Platzhalter komplett ausblenden. */
+.media--loaded .placeholder {
+  display: none;
+}
+
 .placeholder {
   position: absolute;
   inset: 0;
