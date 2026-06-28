@@ -12,7 +12,9 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* Das weiche Scrollen steuern wir selbst per JavaScript
+     (siehe smoothScroll.js) – daher hier bewusst "auto". */
+  scroll-behavior: auto;
 }
 
 body {
@@ -62,7 +64,12 @@ h1, h2, h3, p {
 }
 
 /* --- Seitenwechsel-Animation (Router fügt .is-entering hinzu) --- */
-.app.is-entering {
+/* Jede Seite liegt in einer eigenen Hülle .page-view; nur die aktive
+   ist sichtbar, die anderen sind per [hidden] ausgeblendet. */
+.page-view[hidden] {
+  display: none;
+}
+.page-view.is-entering {
   animation: pageIn 0.5s var(--ease);
 }
 @keyframes pageIn {

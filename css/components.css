@@ -71,17 +71,28 @@
   overflow: hidden;
   position: relative;
 }
-.media img {
+/* Das echte Foto liegt ÜBER dem Platzhalter und füllt den Rahmen.
+   Lädt es nicht, entfernt es sich selbst (siehe components.js) und
+   der blaue Platzhalter wird wieder sichtbar. */
+.media__img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s var(--ease);
+  z-index: 1;
 }
-.split:hover .media img {
-  transform: scale(1.04);
+/* Parallax: Bild etwas höher als der Rahmen, damit es beim Scrollen
+   nach oben/unten wandern kann (Bewegung kommt aus Parallax.js). */
+.media[data-parallax] .media__img {
+  top: -10%;
+  height: 120%;
+  will-change: transform;
 }
 
 .placeholder {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -113,10 +124,12 @@
   position: relative;
   background: var(--color-olive);
   color: var(--color-text-light);
-  padding: clamp(1.8rem, 4vw, 3.2rem) clamp(1.6rem, 4vw, 3.2rem);
+  padding: clamp(1.8rem, 4vw, 3.4rem) clamp(1.6rem, 4vw, 3.2rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center; /* Inhalt mittig */
+  text-align: center;
   overflow: hidden;
 }
 /* dezente Textur über dem Panel */
@@ -133,24 +146,27 @@
   position: relative; /* über der Textur */
 }
 .panel__title {
-  font-weight: 400;
-  letter-spacing: 0.22em;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
-  margin-bottom: 1.4rem;
+  font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+  line-height: 1.1;
+  margin-bottom: 1.6rem;
 }
 .panel__block {
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.5rem;
 }
 .panel__sub {
-  font-weight: 700;
-  font-size: 1rem;
-  letter-spacing: 0.02em;
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   margin-top: 0.5rem;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.45rem;
 }
 .panel__line {
-  font-size: 0.98rem;
+  font-size: 1.02rem;
 }
 .panel__line--strong {
   font-weight: 700;
@@ -168,8 +184,8 @@
   border-color: #fff;
 }
 .panel__text {
-  font-size: 1rem;
-  margin-bottom: 1rem;
+  font-size: 1.05rem;
+  margin: 0 auto 1rem;
   max-width: 46ch;
 }
 .panel__note {
@@ -177,23 +193,37 @@
   margin-top: 0.6rem;
   opacity: 0.95;
 }
+/* Buttons im Panel (z. B. Reservieren) */
+.panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  justify-content: center;
+  margin-top: 0.6rem;
+}
 
-/* Event-Zeile: Tag | Datum | Uhrzeit */
+/* Event-Zeile: Tag | Datum | Uhrzeit – als zentrierter Block */
 .event-row {
   display: grid;
   grid-template-columns: 7.5rem 6.5rem auto;
   gap: 0.5rem;
-  font-size: 0.98rem;
-  padding: 0.12rem 0;
+  font-size: 1.02rem;
+  padding: 0.14rem 0;
+  max-width: 22rem;
+  margin: 0 auto;
+  text-align: left;
 }
 
-/* Preis-Zeile: Name ........ Preis */
+/* Preis-Zeile: Name ........ Preis – als zentrierter Block */
 .price-row {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  font-size: 0.98rem;
-  padding: 0.12rem 0;
+  font-size: 1.02rem;
+  padding: 0.14rem 0;
+  max-width: 24rem;
+  margin: 0 auto;
+  text-align: left;
 }
 .price-row__name {
   flex: 1 1 auto;
@@ -206,16 +236,16 @@
   opacity: 0.85;
 }
 
-/* QR-Code-Platzhalter im Kontakt-Panel (klein & quadratisch) */
+/* QR-Code im Kontakt-Panel (klein & quadratisch, mittig) */
 .qr {
-  width: 120px;
-  height: 120px;
-  margin: 0.6rem 0 1.1rem;
+  width: 130px;
+  height: 130px;
+  margin: 0.6rem auto 1.1rem;
   border-radius: var(--radius);
+  background: #fff; /* QR-Codes brauchen weißen Rand */
 }
-.qr.placeholder {
-  padding: 0.5rem;
-}
+.qr .media__img { object-fit: contain; padding: 6px; }
+.qr .placeholder { padding: 0.5rem; }
 .qr .placeholder__icon { font-size: 1.2rem; }
 .qr .placeholder__label { font-size: 0.7rem; }
 
@@ -226,10 +256,13 @@
   color: #fff;
   text-decoration: none;
   padding: 0.85rem 1.6rem;
+  border: 1px solid transparent;
   border-radius: var(--radius);
   letter-spacing: 0.06em;
   font-size: 0.95rem;
-  transition: transform 0.2s var(--ease), background 0.25s var(--ease);
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: transform 0.2s var(--ease), background 0.25s var(--ease), color 0.25s var(--ease);
 }
 .btn:hover {
   background: var(--color-olive-dark);
@@ -238,9 +271,87 @@
 .btn--ghost {
   background: transparent;
   color: var(--color-olive-dark);
-  border: 1px solid var(--color-olive);
+  border-color: var(--color-olive);
 }
 .btn--ghost:hover {
   background: var(--color-olive);
+  color: #fff;
+}
+/* Buttons auf olivem Grund (Reservieren-Panel): hell statt oliv */
+.btn--on-olive {
+  background: #fff;
+  color: var(--color-olive-dark);
+  border-color: #fff;
+}
+.btn--on-olive:hover {
+  background: var(--color-gold);
+  color: #2b2b2b;
+  border-color: var(--color-gold);
+}
+.btn--on-olive.btn--ghost {
+  background: transparent;
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.8);
+}
+.btn--on-olive.btn--ghost:hover {
+  background: #fff;
+  color: var(--color-olive-dark);
+}
+
+/* ===== Cookie-/Einwilligungs-Hinweis ===== */
+.consent {
+  position: fixed;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 200;
+  background: rgba(30, 30, 30, 0.98);
+  color: #ececec;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+}
+.consent.is-visible {
+  opacity: 1;
+  transform: none;
+}
+.consent__inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.9rem 1.4rem;
+}
+.consent__text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  flex: 1 1 320px;
+  margin: 0;
+}
+.consent__text a {
+  color: var(--color-gold);
+  text-underline-offset: 2px;
+}
+.consent__actions {
+  display: flex;
+  gap: 0.6rem;
+  flex: 0 0 auto;
+}
+.consent__actions .btn {
+  padding: 0.6rem 1.1rem;
+  font-size: 0.85rem;
+}
+.consent__actions .btn--ghost {
+  color: #ececec;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+.consent__actions .btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
   color: #fff;
 }

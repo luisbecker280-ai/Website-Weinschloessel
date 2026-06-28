@@ -1,0 +1,50 @@
+/* fonts.css
+ * -------------------------------------------------------------
+ * Selbst gehostete Schriften (DSGVO-konform!).
+ *
+ * Die Schriftdateien liegen unter assets/fonts/ und werden vom
+ * EIGENEN Server ausgeliefert. Es wird KEINE Verbindung zu Google
+ * Fonts o. Ä. aufgebaut – beim Laden der Seite gehen also keine
+ * Daten (IP-Adresse) an Dritte.
+ *
+ *   Cormorant Garamond -> elegante Überschriften / Schriftzug
+ *   Montserrat         -> klarer, ruhiger Fließtext / Menü
+ * -------------------------------------------------------------
+ */
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../assets/fonts/cormorant-garamond-500.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/cormorant-garamond-600.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("../assets/fonts/montserrat-300.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../assets/fonts/montserrat-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/montserrat-600.woff2") format("woff2");
+}

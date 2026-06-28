@@ -14,7 +14,9 @@ Ristorante Weinschlössel – Winelounge.
 | **JavaScript** (Ordner `js/`, als ES-Module, objektorientiert) | die Logik: Seitenwechsel, Menü, Inhalte einsetzen |
 
 **Bewusst KEIN** Framework (React/Vue) und **keine externen Dienste**
-(keine Google Fonts, kein Tracking, keine Plugins). Gründe:
+(kein Tracking, keine Plugins). Die edle Schrift (Cormorant Garamond +
+Montserrat) wird **selbst gehostet** (`assets/fonts/`) – sie kommt vom
+eigenen Server, nicht von Google. Gründe:
 
 - Es lädt sich blitzschnell und läuft auf jedem Webspace.
 - Es ist **datenschutzfreundlich** – beim Laden der Seite gehen
@@ -34,19 +36,26 @@ index.html
    │  lädt js/app.js (Logik)
    ▼
 app.js   ──>  baut die App zusammen:
-   ├── Navbar  (obere Leiste)            js/core/Navbar.js
-   ├── Footer  (unterer Bereich)         js/core/Footer.js
-   └── Router  (tauscht den Inhalt aus)  js/core/Router.js
+   ├── Navbar         (obere Leiste)          js/core/Navbar.js
+   ├── Footer         (unterer Bereich)       js/core/Footer.js
+   ├── CookieConsent  (Datenschutz-Hinweis)   js/core/CookieConsent.js
+   └── Router         (zeigt die Seiten)      js/core/Router.js
             │
             │ zeigt je nach Adresse (#home, #impressum ...) eine Seite:
-            ├── HomePage         js/pages/HomePage.js
-            ├── ReservierenPage  js/pages/ReservierenPage.js
+            ├── HomePage         js/pages/HomePage.js   (enthält auch „Reservieren")
             ├── ImpressumPage    js/pages/ImpressumPage.js
             └── DatenschutzPage  js/pages/DatenschutzPage.js
+
+Helfer:  smoothScroll.js (weiches Scrollen), Parallax.js (mitwandernde
+         Bilder), ScrollReveal.js (sanftes Einblenden)  – alle in js/core/
 
 Alle Texte/Preise/Zeiten liegen getrennt in:  js/data/content.js
 Wiederverwendbare Bausteine in:               js/components/components.js
 ```
+
+**Kein Flackern:** Jede Seite wird nur **einmal** gebaut und bleibt im
+Speicher. Beim Wechseln wird nur um- statt neugeschaltet – Bilder werden
+also nicht erneut geladen, es gibt keinen weißen „Lade-Streifen".
 
 **Der Ablauf in Worten:** Der Browser öffnet `index.html`. Diese lädt
 das Aussehen (CSS) und die Logik (`app.js`). `app.js` erstellt die obere
@@ -56,9 +65,11 @@ das und tauscht **nur den mittleren Inhaltsbereich** aus – die Seite wird
 also nicht komplett neu geladen. Das ist der weiche, „dynamische" Wechsel.
 
 Die Menüpunkte verhalten sich unterschiedlich:
-- **Startseite / Reservieren** = eigene Unterseiten (`type: "route"`).
-- **Öffnungszeiten / Events / Prodotto / Partyservice / Kontakt** =
-  springen zum passenden Abschnitt **auf der Startseite** (`type: "scroll"`).
+- **Startseite** = eigene Unterseite (`type: "route"`).
+- **Öffnungszeiten / Events / Prodotto / Partyservice / Kontakt /
+  Reservieren** = scrollen weich zum passenden Abschnitt **auf der
+  Startseite** (`type: "scroll"`). „Reservieren" ist also keine eigene
+  Seite mehr, sondern ein Abschnitt unter „Kontakt".
 
 ---
 
@@ -67,30 +78,34 @@ Die Menüpunkte verhalten sich unterschiedlich:
 ```
 index.html               Einstieg
 css/
+  fonts.css              selbst gehostete Schriften (@font-face)
   variables.css          Farben, Schriften, Maße (zentrale Stellschrauben)
   base.css               Reset, Typografie, Animationen
   layout.css             Leiste, Hero, geteilte Zeilen, Footer
-  components.css         Logo, Platzhalter, Panels, Buttons
-  pages.css              Rechtsseiten (Impressum/Datenschutz/Reservieren)
+  components.css         Logo, Platzhalter, Panels, Buttons, Cookie-Banner
+  pages.css              Rechtsseiten (Impressum/Datenschutz)
 js/
   app.js                 startet alles
   core/
-    Router.js            Seitenwechsel + Scroll-Logik
+    Router.js            Seitenwechsel (mit Speicher) + Scroll-Logik
     Navbar.js            obere Navigationsleiste
     Footer.js            Fußbereich
+    CookieConsent.js     Datenschutz-/Cookie-Hinweis
     Page.js              Basis-Klasse für alle Seiten
     ScrollReveal.js      sanftes Einblenden beim Scrollen
+    Parallax.js          Bilder wandern beim Scrollen mit
+    smoothScroll.js      weiches Scrollen (langsam-schnell-langsam)
   components/
     components.js        kleine HTML-Bausteine (Logo, Bild, Panel-Zeile)
   pages/
-    HomePage.js          Startseite
-    ReservierenPage.js   Reservieren (Platzhalter, Andockpunkt Metro)
+    HomePage.js          Startseite (inkl. Reservieren-Abschnitt)
     ImpressumPage.js     Impressum
     DatenschutzPage.js   Datenschutzerklärung
   data/
     content.js           ALLE Texte/Preise/Zeiten/Bilder
 assets/
-  img/                   hier später die echten Bilder ablegen
+  fonts/                 Schriftdateien (.woff2)
+  img/                   hier die echten Bilder ablegen (siehe Abschnitt 5)
 ```
 
 ---
@@ -120,15 +135,27 @@ Dann im Browser öffnen: **http://localhost:8000**
 - Öffnungszeiten ändern → bei `oeffnungszeiten` die `lines` anpassen.
 - Neues Event → bei `events` einen Eintrag ergänzen.
 
-**Bild einsetzen** (statt blauem Platzhalter):
-1. Bilddatei nach `assets/img/` legen (z. B. `lounge.jpg`).
-2. In `content.js` beim passenden Bild `src` setzen:
-   ```js
-   image: { label: "Innenraum / Lounge", src: "assets/img/lounge.jpg" }
-   ```
-   Fertig – das Bild erscheint automatisch.
+**Bilder einsetzen** (statt blauem Platzhalter):
+Die Dateinamen sind bereits im Code hinterlegt. Du musst die Fotos nur
+**genau so benennen** und in den Ordner `assets/img/` legen – dann
+erscheinen sie automatisch (solange eine Datei fehlt, bleibt der blaue
+Platzhalter, es gibt **kein** kaputtes Bild-Symbol).
 
-**Logo einsetzen:** in `content.js` unter `site.logo` `src` setzen.
+| Abschnitt        | Dateiname (in `assets/img/`) |
+|------------------|------------------------------|
+| Hero (oben, s/w) | `hero.jpg`                   |
+| Öffnungszeiten   | `innenraum.jpg`              |
+| Events           | `events.jpg`                 |
+| Prodotto di Piero| `prodotto.jpg`               |
+| Partyservice     | `weinregal.jpg`              |
+| Kontakt          | `kontakt.jpg`                |
+| Reservieren      | `reservieren.jpg`            |
+| Abschlussbild    | `terrasse.jpg`               |
+| QR-Code Anfahrt  | `qr-anfahrt.png`             |
+| Logo             | `logo.png` (zusätzlich in `content.js` unter `site.logo.src` eintragen) |
+
+Querformat-Fotos passen am besten (außer Logo & QR-Code). Andere
+Dateinamen sind möglich – dann den `src`-Eintrag in `content.js` anpassen.
 
 ---
 
@@ -139,12 +166,15 @@ unverändert auf jeden normalen Webspace hochgeladen werden.
 
 Wenn das **Reservierungssystem von Metro** dazukommt, ist der Bauplatz
 schon vorbereitet:
-- In `js/pages/ReservierenPage.js` gibt es den leeren Container
-  `#reservierung-system`. Dort wird das Reservierungs-Widget/-Formular
-  später eingehängt – ohne den übrigen Code anzufassen.
-- Daten zum Server schickt man später typischerweise per `fetch()`
-  aus genau dieser Seiten-Klasse. Die objektorientierte Aufteilung sorgt
-  dafür, dass das eine, klar abgegrenzte Stelle bleibt.
+- Im Reservieren-Abschnitt der Startseite (`js/pages/HomePage.js`, Methode
+  `_reservieren`) gibt es den leeren Container `#reservierung-system`.
+  Dort wird das Reservierungs-Widget/-Formular später eingehängt – ohne
+  den übrigen Code anzufassen.
+- Daten zum Server schickt man später typischerweise per `fetch()`.
+  Die objektorientierte Aufteilung sorgt dafür, dass das eine, klar
+  abgegrenzte Stelle bleibt.
+- Lädt das Metro-System externe Inhalte, sollte vorher die Einwilligung
+  geprüft werden: `CookieConsent.accepted()` (siehe `js/core/CookieConsent.js`).
 
 ---
 
@@ -162,6 +192,12 @@ schon vorbereitet:
    sollte nur das beschreiben, was wirklich eingesetzt wird. Vor dem
    Online-Gang also entweder die nicht genutzten Abschnitte entfernen
    oder – sobald z. B. Google Maps eingebunden wird – passend belassen.
-4. **Keine externen Schriften/Skripte** – dadurch entsteht beim reinen
-   Seitenaufruf keine Datenübertragung an Dritte.
+4. **Schriften selbst gehostet, keine externen Skripte** – dadurch
+   entsteht beim reinen Seitenaufruf keine Datenübertragung an Dritte.
+5. **Cookie-/Einwilligungs-Hinweis:** Der Banner ist ehrlich formuliert –
+   die Seite setzt aktuell nur eine technisch notwendige Speicherung
+   (die Entscheidung selbst). Da noch keine Tracking-Cookies/externen
+   Dienste laufen, ist der Banner vor allem **Vorbereitung** (z. B. für
+   späteres Google Maps). Den genauen Wortlaut bitte vor dem Live-Gang
+   fachkundig prüfen lassen.
 ```

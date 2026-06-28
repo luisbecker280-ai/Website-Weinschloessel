@@ -1,0 +1,8 @@
+# Abhängigkeiten / Werkzeuge (nicht ins Repo)
+node_modules/
+package-lock.json
+
+# Betriebssystem / Editor
+.DS_Store
+Thumbs.db
+*.log

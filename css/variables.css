@@ -28,10 +28,12 @@
   --maxw:              1280px;   /* maximale Inhaltsbreite */
   --radius:            4px;
 
-  /* Schriften – bewusst SYSTEM-Schriften (keine externen Google Fonts!),
-   * damit beim Laden keine Daten an Dritte gehen (DSGVO).             */
-  --font-serif: Georgia, "Times New Roman", "Cambria", serif;
-  --font-sans:  "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  /* Schriften – SELBST gehostet (siehe fonts.css), daher DSGVO-konform.
+   * Cormorant Garamond = edle Überschriften, Montserrat = ruhiger Text.
+   * Die nachfolgenden System-Schriften greifen nur, falls eine Datei
+   * einmal nicht laden sollte.                                        */
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans:  "Montserrat", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
 
   /* Bewegung */
   --ease:   cubic-bezier(0.22, 0.61, 0.36, 1);

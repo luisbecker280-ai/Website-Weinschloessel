@@ -13,6 +13,7 @@ import { Page } from "../core/Page.js";
 import { content, site } from "../data/content.js";
 import { mediaBlock, splitRow, brandMark } from "../components/components.js";
 import { ScrollReveal } from "../core/ScrollReveal.js";
+import { Parallax } from "../core/Parallax.js";
 
 export class HomePage extends Page {
   constructor(app) {
@@ -29,6 +30,7 @@ export class HomePage extends Page {
       ${this._prodotto(c.prodotto)}
       ${this._partyservice(c.partyservice)}
       ${this._kontakt(c.kontakt)}
+      ${this._reservieren(c.reservieren)}
       ${this._closing(c.closingImage)}
     `;
   }
@@ -137,10 +139,29 @@ export class HomePage extends Page {
         <p class="panel__line"><a href="https://${k.web}" target="_blank" rel="noopener">${k.web}</a></p>
       </address>
       <h3 class="panel__sub">Anfahrt</h3>
-      ${mediaBlock(k.anfahrt, "qr")}
+      ${mediaBlock(k.anfahrt, "qr", { parallax: false })}
       <p class="panel__note">${k.notice}</p>`;
 
     return splitRow({ id: "kontakt", image: k.image, imageSide: k.imageSide, panelHTML });
+  }
+
+  /* ---------- Reservieren (Abschnitt, kein eigener Seitenwechsel) ----------
+   * Hier wird SPÄTER das Reservierungssystem (Metro) eingebunden:
+   * der leere Container #reservierung-system ist der vorgesehene
+   * "Andockpunkt" – dort kann das Widget/Formular hineingeladen werden,
+   * ohne den übrigen Code anzufassen. */
+  _reservieren(r) {
+    const k = content.kontakt;
+    const tel = k.phone.replace(/\s+/g, "");
+    const panelHTML = `
+      <h2 class="panel__title">${r.title}</h2>
+      <p class="panel__text">${r.lead}</p>
+      <div class="panel__actions">
+        <a class="btn btn--on-olive" href="tel:${tel}">Anrufen: ${k.phone}</a>
+        <a class="btn btn--on-olive btn--ghost" href="mailto:${k.email}">E-Mail schreiben</a>
+      </div>
+      <div id="reservierung-system" class="reservation__embed" hidden></div>`;
+    return splitRow({ id: "reservieren", image: r.image, imageSide: r.imageSide, panelHTML });
   }
 
   /* ---------- Abschlussbild ---------- */
@@ -148,29 +169,43 @@ export class HomePage extends Page {
     return `<section class="closing" data-reveal>${mediaBlock(img, "closing__media")}</section>`;
   }
 
-  /* ---------- Nach dem Einfügen: Animationen + Scrollspy ---------- */
+  /* ---------- Nach dem Einfügen: Animationen + Parallax + Scrollspy ---------- */
   onMount(container) {
     // 1) Einblend-Animationen beim Scrollen
     this.reveal = new ScrollReveal(container);
 
-    // 2) Scrollspy: der gerade sichtbare Bereich markiert den passenden
-    //    Menüpunkt oben in der Navigationsleiste.
-    const ids = ["oeffnungszeiten", "events", "prodotto", "partyservice", "kontakt"];
-    const sections = ids.map((id) => document.getElementById(id)).filter(Boolean);
+    // 2) Parallax: Bilder wandern beim Scrollen sanft mit
+    this.parallax = new Parallax(container, 10);
 
+    // 3) Scrollspy: der gerade sichtbare Bereich markiert den passenden
+    //    Menüpunkt oben in der Navigationsleiste. Der Hero zählt zur
+    //    "Startseite". Wir merken uns, zu welchem Element welcher
+    //    Menüpunkt gehört.
+    const map = [
+      [container.querySelector(".hero"), "home"],
+      [container.querySelector("#oeffnungszeiten"), "oeffnungszeiten"],
+      [container.querySelector("#events"), "events"],
+      [container.querySelector("#prodotto"), "prodotto"],
+      [container.querySelector("#partyservice"), "partyservice"],
+      [container.querySelector("#kontakt"), "kontakt"],
+      [container.querySelector("#reservieren"), "reservieren"],
+    ].filter(([el]) => el);
+
+    const navFor = new Map(map);
     this.spy = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) this.app.navbar.setActive(entry.target.id);
+          if (entry.isIntersecting) this.app.navbar.setActive(navFor.get(entry.target));
         });
       },
       { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
     );
-    sections.forEach((s) => this.spy.observe(s));
+    map.forEach(([el]) => this.spy.observe(el));
   }
 
   onUnmount() {
     this.reveal && this.reveal.disconnect();
+    this.parallax && this.parallax.disconnect();
     this.spy && this.spy.disconnect();
   }
 }

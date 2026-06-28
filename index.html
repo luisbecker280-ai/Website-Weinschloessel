@@ -11,7 +11,12 @@
   <!-- Favicon: eingebettetes gold-Oval mit "W" (kein externer Download) -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cellipse cx='32' cy='32' rx='30' ry='24' fill='%23a8893f'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-style='italic' font-size='34' fill='white' text-anchor='middle'%3EW%3C/text%3E%3C/svg%3E" />
 
-  <!-- Stylesheets in fester Reihenfolge: Variablen -> Basis -> Layout -> Komponenten -> Seiten -->
+  <!-- Wichtigste Schriften vorab laden (schnellerer, ruhigerer Aufbau) -->
+  <link rel="preload" href="assets/fonts/montserrat-400.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/cormorant-garamond-600.woff2" as="font" type="font/woff2" crossorigin />
+
+  <!-- Stylesheets in fester Reihenfolge: Schriften -> Variablen -> Basis -> Layout -> Komponenten -> Seiten -->
+  <link rel="stylesheet" href="css/fonts.css" />
   <link rel="stylesheet" href="css/variables.css" />
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/layout.css" />

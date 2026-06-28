@@ -36,7 +36,9 @@ export const navigation = [
   { id: "prodotto",      label: "Prodotto di Piero", type: "scroll" },
   { id: "partyservice",  label: "Partyservice",      type: "scroll" },
   { id: "kontakt",       label: "Kontakt",           type: "scroll" },
-  { id: "reservieren",   label: "Reservieren",       type: "route"  },
+  // Reservieren ist KEINE eigene Seite mehr, sondern ein Abschnitt
+  // unter Kontakt – man scrollt einfach dorthin.
+  { id: "reservieren",   label: "Reservieren",       type: "scroll" },
 ];
 
 /* Inhalte der einzelnen Bereiche */
@@ -47,13 +49,13 @@ export const content = {
     logoTop: "Ristorante",
     logoMain: "Weinschlössel",
     logoSub: "Winelounge",
-    image: { label: "Hero – Weinflasche (s/w)", src: null },
+    image: { label: "Hero – Weinflasche (s/w)", src: "assets/img/hero.jpg" },
   },
 
   /* ---------- ÖFFNUNGSZEITEN ---------- */
   oeffnungszeiten: {
     title: "Öffnungszeiten",
-    image: { label: "Innenraum / Lounge", src: null },
+    image: { label: "Innenraum / Lounge", src: "assets/img/innenraum.jpg" },
     imageSide: "left",
     blocks: [
       {
@@ -71,7 +73,7 @@ export const content = {
   /* ---------- EVENTS ---------- */
   events: {
     title: "Events",
-    image: { label: "Oktopus vom Grill", src: null },
+    image: { label: "Oktopus vom Grill", src: "assets/img/events.jpg" },
     imageSide: "right",
     groups: [
       {
@@ -94,7 +96,7 @@ export const content = {
   /* ---------- PRODOTTO DI PIERO ---------- */
   prodotto: {
     title: "Prodotto di Piero",
-    image: { label: "Olivenöl-Flaschen", src: null },
+    image: { label: "Olivenöl-Flaschen", src: "assets/img/prodotto.jpg" },
     imageSide: "left",
     categories: [
       {
@@ -126,7 +128,7 @@ export const content = {
   /* ---------- PARTYSERVICE ---------- */
   partyservice: {
     title: "Partyservice",
-    image: { label: "Weinregal", src: null },
+    image: { label: "Weinregal", src: "assets/img/weinregal.jpg" },
     imageSide: "right",
     paragraphs: [
       "Ob Geburtstag, Hochzeit, Taufe oder Firmenfeier – wir beraten und unterstützen Sie individuell und professionell.",
@@ -137,7 +139,7 @@ export const content = {
   /* ---------- KONTAKT ---------- */
   kontakt: {
     title: "Kontakt",
-    image: { label: "Tischschild „Reserviert“", src: null },
+    image: { label: "Tischschild „Reserviert“", src: "assets/img/kontakt.jpg" },
     imageSide: "left",
     name: "Ristorante Weinschlössel",
     person: "Nicola Vaccarelli",
@@ -146,13 +148,21 @@ export const content = {
     phone: "+49 6343 1331",
     email: "info@ristorante-weinschloessel.de",
     web: "www.ristorante-weinschloessel.de",
-    // QR-Code Anfahrt: später als Bild einsetzen, z. B. src: "assets/img/qr-anfahrt.png"
-    anfahrt: { label: "QR-Code Anfahrt", src: null },
+    // QR-Code Anfahrt: Datei unter assets/img/qr-anfahrt.png ablegen.
+    anfahrt: { label: "QR-Code Routenplanung", src: "assets/img/qr-anfahrt.png" },
     notice: "Liebe Gäste, bitte beachten Sie, dass Hunde in unserem Gastraum nicht erlaubt sind.",
   },
 
+  /* ---------- RESERVIEREN (Abschnitt unter Kontakt) ---------- */
+  reservieren: {
+    title: "Reservieren",
+    image: { label: "Gedeckter Tisch / Terrasse", src: "assets/img/reservieren.jpg" },
+    imageSide: "right",
+    lead: "Wir freuen uns auf Ihren Besuch. Reservieren Sie ganz einfach telefonisch oder per E-Mail – unser Online-Reservierungssystem folgt in Kürze.",
+  },
+
   /* ---------- Abschlussbild über dem Footer ---------- */
-  closingImage: { label: "Terrasse / gedeckter Tisch", src: null },
+  closingImage: { label: "Terrasse / gedeckter Tisch", src: "assets/img/terrasse.jpg" },
 
   /* ---------- FOOTER ---------- */
   footer: {

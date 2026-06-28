@@ -118,7 +118,7 @@
 }
 /* Graustufen nur auf das ECHTE Bild legen (Schwarz-Weiß-Hero),
    nicht auf den blauen Platzhalter. */
-.hero__media img {
+.hero__media .media__img {
   filter: grayscale(100%) contrast(1.05);
 }
 
