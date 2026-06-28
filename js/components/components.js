@@ -74,15 +74,23 @@ export function splitRow({ id, image, imageSide = "left", panelHTML }) {
  * des gezeichneten Ovals angezeigt.
  */
 export function brandMark(size = "sm", logoSrc = null) {
-  const emblem = logoSrc
-    ? `<img class="brand__img" src="${logoSrc}" alt="Logo Ristorante Weinschlössel">`
-    : `<span class="brand__emblem" aria-hidden="true"><span class="brand__w">W</span></span>`;
+  // Liegt ein echtes Logo vor, zeigen wir NUR das Bild (es enthält bereits
+  // den kompletten Schriftzug). Die gezeichneten Teile (.brand__drawn)
+  // bleiben als Reserve im Code: Lädt das Logo nicht, entfernt es sich
+  // selbst, die Klasse brand--has-logo fällt weg und die gezeichnete
+  // Variante wird wieder sichtbar.
+  const img = logoSrc
+    ? `<img class="brand__img" src="${logoSrc}" alt="Logo Ristorante Weinschlössel – Winelounge"
+            onerror="this.closest('.brand').classList.remove('brand--has-logo'); this.remove();">`
+    : "";
+  const hasLogo = logoSrc ? " brand--has-logo" : "";
   return `
-    <div class="brand brand--${size}">
-      ${emblem}
-      <p class="brand__top">Ristorante</p>
-      <p class="brand__main">Weinschlössel</p>
-      <span class="brand__rule"></span>
-      <p class="brand__sub">Winelounge</p>
+    <div class="brand brand--${size}${hasLogo}">
+      ${img}
+      <span class="brand__emblem brand__drawn" aria-hidden="true"><span class="brand__w">W</span></span>
+      <p class="brand__top brand__drawn">Ristorante</p>
+      <p class="brand__main brand__drawn">Weinschlössel</p>
+      <span class="brand__rule brand__drawn"></span>
+      <p class="brand__sub brand__drawn">Winelounge</p>
     </div>`;
 }

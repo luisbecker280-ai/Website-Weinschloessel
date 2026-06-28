@@ -20,9 +20,10 @@
 /* Allgemeine Angaben zur Seite */
 export const site = {
   name: "Ristorante Weinschlössel",
-  // Logo: solange src = null ist, wird das gold-Oval mit "W" per CSS gezeichnet.
-  // Sobald ihr eine Logo-Datei habt: src: "assets/img/logo.png"
-  logo: { src: null },
+  // Logo: zeigt die Datei assets/img/logo.png (das vollständige Logo mit
+  // Schriftzug). Fehlt die Datei, wird ersatzweise das gold-Oval mit "W"
+  // samt Schriftzug per CSS gezeichnet.
+  logo: { src: "assets/img/logo.png" },
 };
 
 /* Die obere Navigationsleiste.
@@ -173,7 +174,7 @@ export const content = {
   /* ---------- IMPRESSUM ---------- */
   impressum: {
     title: "Impressum",
-    subtitle: "Inhaltlich Verantwortliche gemäß § 6 MDStV",
+    subtitle: "Angaben gemäß § 5 DDG",
     lines: ["Nicola Vaccarelli", "Kurtalstrasse 10", "76887 Bad Bergzabern"],
     contact: ["Tel: +49 6343 1331", "Email: info@ristorante-weinschloessel.de"],
   },

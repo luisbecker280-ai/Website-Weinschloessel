@@ -31,9 +31,15 @@
   line-height: 1;
 }
 .brand__img {
-  width: clamp(120px, 16vw, 190px);
+  width: clamp(210px, 34vw, 340px);
   height: auto;
-  margin-bottom: 1rem;
+}
+.brand--lg .brand__img {
+  width: clamp(260px, 42vw, 460px);
+}
+/* Liegt das echte Logo vor, die gezeichnete Reserve ausblenden. */
+.brand--has-logo .brand__drawn {
+  display: none;
 }
 .brand__top {
   font-family: var(--font-serif);
