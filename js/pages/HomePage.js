@@ -174,8 +174,8 @@ export class HomePage extends Page {
     // 1) Einblend-Animationen beim Scrollen
     this.reveal = new ScrollReveal(container);
 
-    // 2) Parallax: Bilder wandern beim Scrollen sanft mit
-    this.parallax = new Parallax(container, 10);
+    // 2) Parallax: Bilder wandern beim Scrollen mit (Stärke in %)
+    this.parallax = new Parallax(container, 16);
 
     // 3) Scrollspy: der gerade sichtbare Bereich markiert den passenden
     //    Menüpunkt oben in der Navigationsleiste. Der Hero zählt zur

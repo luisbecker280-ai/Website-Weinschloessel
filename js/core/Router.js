@@ -18,7 +18,7 @@
  * -------------------------------------------------------------
  */
 import { site } from "../data/content.js";
-import { smoothScrollTo } from "./smoothScroll.js";
+import { smoothScrollTo, smoothScrollToY } from "./smoothScroll.js";
 
 export class Router {
   /**
@@ -68,6 +68,9 @@ export class Router {
 
   /** Die gewünschte Seite sichtbar machen (und beim ersten Mal bauen). */
   _show(id) {
+    // Nur wenn wir wirklich die Seite WECHSELN, spielen wir die
+    // Einblend-Animation. Sonst wirkt jeder Klick wie ein "Neuladen".
+    const changed = !this.current || this.current.id !== id;
     const view = this._ensureView(id);
 
     // alle anderen Seiten ausblenden, die gewünschte einblenden
@@ -75,10 +78,11 @@ export class Router {
       el.hidden = key !== id;
     });
 
-    // sanfte Einblend-Animation neu auslösen
-    view.classList.remove("is-entering");
-    void view.offsetWidth; // erzwingt ein "reflow", damit die Animation greift
-    view.classList.add("is-entering");
+    if (changed) {
+      view.classList.remove("is-entering");
+      void view.offsetWidth; // erzwingt ein "reflow", damit die Animation greift
+      view.classList.add("is-entering");
+    }
 
     const page = this.routes.get(id);
     this.current = page;
@@ -107,7 +111,15 @@ export class Router {
     const routeEl = e.target.closest("[data-route]");
     if (routeEl) {
       e.preventDefault();
-      this.navigate(routeEl.dataset.route);
+      const id = routeEl.dataset.route;
+      // Bin ich schon auf dieser Seite (z. B. "Startseite" auf der Startseite)?
+      // Dann NICHT neu aufbauen, sondern nur sanft nach oben scrollen.
+      if (this.current && this.current.id === id) {
+        smoothScrollToY(0, 950);
+        this.app.navbar.setActive(id);
+      } else {
+        this.navigate(id);
+      }
       return;
     }
 
@@ -118,18 +130,17 @@ export class Router {
     }
   }
 
-  /** Abstand von oben: Höhe der fixen Leiste + etwas Luft. */
-  _scrollOffset() {
+  /** Höhe der fixen Navigationsleiste (Pixel). */
+  _headerH() {
     const css = getComputedStyle(document.documentElement).getPropertyValue("--header-h");
-    const headerH = parseInt(css, 10) || 64;
-    return headerH + 24;
+    return parseInt(css, 10) || 64;
   }
 
-  /** Weich zu einem Bereich der Startseite scrollen (ggf. erst dorthin). */
+  /** Weich zu einem Bereich der Startseite scrollen – MITTIG (ggf. erst dorthin). */
   _scrollToSection(sectionId) {
     const go = () => {
       const el = document.getElementById(sectionId);
-      smoothScrollTo(el, { offset: this._scrollOffset(), duration: 1000 });
+      smoothScrollTo(el, { offset: this._headerH(), duration: 1000, block: "center" });
       // Menüpunkt sofort markieren (nicht erst, wenn das Scrollen ankommt)
       this.app.navbar.setActive(sectionId);
     };

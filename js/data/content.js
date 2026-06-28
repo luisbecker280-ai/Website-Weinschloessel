@@ -50,13 +50,15 @@ export const content = {
     logoTop: "Ristorante",
     logoMain: "Weinschlössel",
     logoSub: "Winelounge",
-    image: { label: "Hero – Weinflasche (s/w)", src: "assets/img/hero.jpg" },
+    // getauscht: oben im Hero jetzt das Innenraum-Foto
+    image: { label: "Innenraum / Lounge", src: "assets/img/innenraum.jpg" },
   },
 
   /* ---------- ÖFFNUNGSZEITEN ---------- */
   oeffnungszeiten: {
     title: "Öffnungszeiten",
-    image: { label: "Innenraum / Lounge", src: "assets/img/innenraum.jpg" },
+    // getauscht: hier jetzt die Weinflasche (s/w)
+    image: { label: "Weinflasche (s/w)", src: "assets/img/hero.jpg" },
     imageSide: "left",
     blocks: [
       {
@@ -157,7 +159,7 @@ export const content = {
   /* ---------- RESERVIEREN (Abschnitt unter Kontakt) ---------- */
   reservieren: {
     title: "Reservieren",
-    image: { label: "Gedeckter Tisch / Terrasse", src: "assets/img/reservieren.jpg" },
+    image: { label: "Pizza", src: "assets/img/pizza.jpg" },
     imageSide: "right",
     lead: "Wir freuen uns auf Ihren Besuch. Reservieren Sie ganz einfach telefonisch oder per E-Mail – unser Online-Reservierungssystem folgt in Kürze.",
   },

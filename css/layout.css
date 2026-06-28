@@ -116,11 +116,9 @@
   aspect-ratio: 16 / 6;
   min-height: 260px;
 }
-/* Graustufen nur auf das ECHTE Bild legen (Schwarz-Weiß-Hero),
-   nicht auf den blauen Platzhalter. */
-.hero__media .media__img {
-  filter: grayscale(100%) contrast(1.05);
-}
+/* Hinweis: Das Hero-Foto wird in Farbe gezeigt. Falls ihr es doch in
+   Schwarz-Weiß möchtet, hier wieder einen Filter setzen, z. B.:
+   .hero__media .media__img { filter: grayscale(100%) contrast(1.05); } */
 
 /* ===== Geteilte Zeile: Bild + olivgrünes Panel ===== */
 .split {

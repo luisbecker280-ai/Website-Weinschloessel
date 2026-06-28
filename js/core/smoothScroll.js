@@ -1,18 +1,17 @@
 /**
  * smoothScroll.js
  * -------------------------------------------------------------
- * Eigene, weiche Scroll-Bewegung zu einem Abschnitt.
+ * Eigene, weiche Scroll-Bewegung.
  *
  * Warum nicht einfach scrollIntoView()? Weil wir die Bewegung selbst
  * steuern wollen:
  *   - sie startet langsam, wird schneller, endet wieder langsam
  *     (ease-in-out) – das wirkt edel statt hektisch,
- *   - sie hält oben einen Abstand für die fixe Navigationsleiste frei,
- *     damit die Überschrift NICHT unter der Leiste verschwindet.
+ *   - sie kann einen Abschnitt MITTIG im Bild platzieren (block:"center"),
+ *   - sie hält oben Platz für die fixe Navigationsleiste frei.
  *
- * Über  offsetTop  wird die Zielhöhe berechnet (unabhängig von den
- * Einblende-Animationen), deshalb landet man immer am richtigen
- * Abschnitt – kein "Verspringen" mehr.
+ * Über offsetTop wird die Zielhöhe berechnet (unabhängig von den
+ * Einblende-Animationen), deshalb landet man immer am richtigen Abschnitt.
  * -------------------------------------------------------------
  */
 
@@ -31,34 +30,58 @@ function pageTop(el) {
   return y;
 }
 
-/**
- * Sanft zu einem Element scrollen.
- * @param {HTMLElement} target
- * @param {{offset?:number, duration?:number}} opts
- *        offset   = Abstand von oben (z. B. Höhe der Leiste + Luft)
- *        duration = Dauer in Millisekunden (größer = langsamer)
- */
-export function smoothScrollTo(target, { offset = 0, duration = 1000 } = {}) {
-  if (!target) return;
+function reducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
 
-  // Bei "wenig Bewegung"-Einstellung: sofort springen, nicht animieren.
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    window.scrollTo(0, Math.max(0, pageTop(target) - offset));
+/**
+ * Sanft zu einer bestimmten Y-Position scrollen.
+ * @param {number} endY     Zielhöhe (Pixel von oben)
+ * @param {number} duration Dauer in ms (größer = langsamer)
+ */
+export function smoothScrollToY(endY, duration = 950) {
+  endY = Math.max(0, Math.round(endY));
+
+  if (reducedMotion()) {
+    window.scrollTo(0, endY);
     return;
   }
 
   const startY = window.pageYOffset;
-  const endY = Math.max(0, pageTop(target) - offset);
   const distance = endY - startY;
   if (Math.abs(distance) < 2) return;
 
   let startTime = null;
   function step(now) {
     if (startTime === null) startTime = now;
-    const elapsed = now - startTime;
-    const t = Math.min(1, elapsed / duration);
+    const t = Math.min(1, (now - startTime) / duration);
     window.scrollTo(0, startY + distance * easeInOutCubic(t));
     if (t < 1) requestAnimationFrame(step);
   }
   requestAnimationFrame(step);
+}
+
+/**
+ * Sanft zu einem Element scrollen.
+ * @param {HTMLElement} target
+ * @param {{offset?:number, duration?:number, block?:"start"|"center"}} opts
+ *        offset   = freizuhaltender Abstand oben (Höhe der Leiste)
+ *        block    = "start" (oben unter der Leiste) oder "center" (mittig)
+ */
+export function smoothScrollTo(target, { offset = 0, duration = 1000, block = "start" } = {}) {
+  if (!target) return;
+  const top = pageTop(target);
+
+  let endY;
+  if (block === "center") {
+    const visible = window.innerHeight - offset; // sichtbarer Bereich unter der Leiste
+    const h = target.offsetHeight;
+    // Passt der Abschnitt in den sichtbaren Bereich -> mittig setzen,
+    // sonst (z. B. sehr hoch auf dem Handy) oben unter der Leiste.
+    endY = h < visible ? top - offset - (visible - h) / 2 : top - offset - 24;
+  } else {
+    endY = top - offset;
+  }
+
+  smoothScrollToY(endY, duration);
 }

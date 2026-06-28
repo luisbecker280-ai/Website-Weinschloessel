@@ -88,11 +88,12 @@
   object-fit: cover;
   z-index: 1;
 }
-/* Parallax: Bild etwas höher als der Rahmen, damit es beim Scrollen
-   nach oben/unten wandern kann (Bewegung kommt aus Parallax.js). */
+/* Parallax: Bild deutlich höher als der Rahmen, damit es beim Scrollen
+   spürbar nach oben/unten wandern kann (Bewegung kommt aus Parallax.js).
+   Höhe muss >= 100% + 2 * Stärke sein (Stärke 16% -> mind. 132%). */
 .media[data-parallax] .media__img {
-  top: -10%;
-  height: 120%;
+  top: -18%;
+  height: 136%;
   will-change: transform;
 }
 
