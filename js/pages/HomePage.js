@@ -51,8 +51,7 @@ export class HomePage extends Page {
   _karten(k) {
     const buttons = k.items
       .map(
-        (it) =>
-          `<a class="btn btn--on-olive" href="#${it.route}" data-route="${it.route}">${it.label}</a>`
+        (it) => `<a class="btn" href="#${it.route}" data-route="${it.route}">${it.label}</a>`
       )
       .join("");
     return `

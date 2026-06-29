@@ -25,6 +25,11 @@ body {
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* Sticky-Footer: Inhalt füllt mind. die ganze Höhe, der Footer
+     sitzt dadurch immer ganz unten – auch bei kurzen Seiten. */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 img {

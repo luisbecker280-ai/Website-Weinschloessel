@@ -100,7 +100,7 @@
 /* ===== Inhaltsbereich ===== */
 .app {
   padding-top: var(--header-h);
-  min-height: 60vh;
+  flex: 1 0 auto; /* füllt den Platz, schiebt den Footer nach ganz unten */
 }
 
 /* ===== Hero (Startseite) ===== */
@@ -123,21 +123,13 @@
 /* ===== Schmaler Karten-Streifen (Speise- & Weinkarte) ===== */
 .cards-strip {
   position: relative;
-  background: var(--color-olive);
-  color: var(--color-text-light);
-  overflow: hidden;
+  background: #ffffff;
+  color: var(--color-text);
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
   text-align: center;
   /* bewusst SCHMAL: deutlich weniger hoch als die normalen Zeilen */
-  padding: clamp(1.4rem, 3vw, 2.2rem) 1.25rem;
-}
-.cards-strip::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: var(--noise);
-  opacity: 0.05;
-  pointer-events: none;
-  mix-blend-mode: overlay;
+  padding: clamp(1.6rem, 3.2vw, 2.4rem) 1.25rem;
 }
 .cards-strip__inner {
   position: relative;
@@ -146,14 +138,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.9rem;
+  gap: 1rem;
 }
 .cards-strip__title {
   font-family: var(--font-serif);
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  font-size: clamp(1.3rem, 2.6vw, 1.9rem);
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  color: var(--color-olive-dark);
   margin: 0;
 }
 .cards-strip__actions {
