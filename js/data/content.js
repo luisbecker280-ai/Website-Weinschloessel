@@ -194,6 +194,18 @@ export const content = {
     eid: "hydra-86d4ed35-1d0f-4d0d-a868-d047acceb6bd",
     tagId: "hors-hydra-86d4ed35-1d0f-4d0d-a868-d047acceb6bd",
     src: "https://reservation.dish.co/widget.js",
+    // Grafische Anpassung an das Oliv/Gold-Design (leer = DISH-Standard).
+    // Falls DISH die Farben ohne "#" erwartet, hier einfach das "#" entfernen.
+    colors: {
+      foregroundColor: "#2b2b2b",
+      backgroundColor: "#ffffff",
+      linkColor: "#837726",
+      errorColor: "#b23c3c",
+      primaryButtonForegroundColor: "#ffffff",
+      primaryButtonBackgroundColor: "#8f8230",
+      secondaryButtonForegroundColor: "#2b2b2b",
+      secondaryButtonBackgroundColor: "#e8e5da",
+    },
   },
 
   /* ---------- Abschlussbild über dem Footer ---------- */

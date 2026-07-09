@@ -3,52 +3,59 @@
  * -------------------------------------------------------------
  * Bindet das Online-Reservierungstool von DISH / METRO ein.
  *
- * DATENSCHUTZ: Das Tool lädt ein Skript von reservation.dish.co und
- * überträgt dabei Daten (z. B. IP-Adresse) an einen Dritt-Anbieter.
- * Deshalb laden wir es NICHT automatisch beim Seitenaufruf, sondern:
- *   - sofort, WENN der Gast im Cookie-Banner zugestimmt hat, ODER
- *   - erst nach Klick auf "Reservierungstool laden" (= Einwilligung).
- * Das entspricht dem gleichen Muster wie "Google Maps mit Einwilligung"
- * in der Datenschutzerklärung.
+ * DATENSCHUTZ / BEDIENUNG:
+ *  - Hat der Gast den Cookie-/Datenschutz-Hinweis akzeptiert, wird das
+ *    Tool SOFORT geladen – ohne zusätzlichen Klick.
+ *  - Ist noch keine Zustimmung erteilt, zeigt der Bereich einen kurzen
+ *    Hinweis mit dem Knopf „Zustimmen & reservieren": ein Klick erteilt
+ *    die Einwilligung (wie im Banner) und lädt das Tool direkt.
+ *  - Klickt der Gast anderswo (Banner) auf „Akzeptieren", lädt sich das
+ *    Tool automatisch mit (über das zentrale Zustimmungs-Ereignis).
  *
- * Der Einbettungscode (IDs) stammt aus der METRO-Mail und steht in
- * content.js unter `reservierung`.
+ * Farben/IDs kommen aus content.js unter `reservierung`.
  * -------------------------------------------------------------
  */
 import { content } from "../data/content.js";
-import { CookieConsent } from "./CookieConsent.js";
+import { CookieConsent, CONSENT_EVENT } from "./CookieConsent.js";
 
 export class ReservationWidget {
   constructor(mountEl) {
     this.mount = mountEl;
     this.cfg = content.reservierung;
     this.loaded = false;
+
+    // Sobald irgendwo zugestimmt wird, das Tool laden.
+    this._onConsent = (e) => {
+      if (e.detail === "accepted") this._load();
+    };
+    window.addEventListener(CONSENT_EVENT, this._onConsent);
   }
 
-  /** Entscheidet: direkt laden (bei Zustimmung) oder Hinweis zeigen. */
+  /** Direkt laden (bei Zustimmung) oder kurzen Hinweis zeigen. */
   render() {
     if (!this.mount || !this.cfg) return;
     if (CookieConsent.accepted()) {
       this._load();
     } else {
-      this._gate();
+      this._prompt();
     }
   }
 
-  /** Datenschutz-Hinweis mit "Laden"-Knopf, solange keine Zustimmung. */
-  _gate() {
+  /** Kurzer Hinweis mit einem Knopf, der zustimmt UND lädt. */
+  _prompt() {
     this.mount.innerHTML = `
       <div class="resv-gate">
         <p class="resv-gate__text">
-          Für die Online-Reservierung wird das Tool von <strong>DISH / METRO</strong>
-          geladen. Dabei werden Daten (z.&nbsp;B. Ihre IP-Adresse) an
-          <em>reservation.dish.co</em> übertragen. Mehr dazu in der
+          Für die Online-Reservierung ist Ihre Zustimmung nötig. Dabei wird
+          das Tool von <strong>DISH / METRO</strong> geladen (Daten wie Ihre
+          IP-Adresse gehen an reservation.dish.co). Mehr in der
           <a href="#datenschutz" data-route="datenschutz">Datenschutzerklärung</a>.
         </p>
-        <button type="button" class="btn" data-load-reservation>Reservierungstool laden</button>
+        <button type="button" class="btn" data-accept-reserve>Zustimmen &amp; reservieren</button>
       </div>`;
-    const btn = this.mount.querySelector("[data-load-reservation]");
-    btn.addEventListener("click", () => this._load());
+    this.mount
+      .querySelector("[data-accept-reserve]")
+      .addEventListener("click", () => CookieConsent.grant());
   }
 
   /** Das eigentliche DISH-Widget einbinden (nur einmal). */
@@ -57,25 +64,25 @@ export class ReservationWidget {
     this.loaded = true;
 
     const { eid, tagId, src } = this.cfg;
+    const c = this.cfg.colors || {};
 
     // Ziel-Container, in den DISH das Widget rendert.
     this.mount.innerHTML = `<div id="${tagId}"></div>`;
 
-    // Konfiguration, die widget.js erwartet (Farben leer = DISH-Standard;
-    // lassen sich später an das olivgrün/gold anpassen).
+    // Konfiguration, die widget.js erwartet – inkl. der Design-Farben.
     window._hors = [
       ["eid", eid],
       ["tagid", tagId],
       ["width", "100%"],
       ["height", ""],
-      ["foregroundColor", ""],
-      ["backgroundColor", ""],
-      ["linkColor", ""],
-      ["errorColor", ""],
-      ["primaryButtonForegroundColor", ""],
-      ["primaryButtonBackgroundColor", ""],
-      ["secondaryButtonForegroundColor", ""],
-      ["secondaryButtonBackgroundColor", ""],
+      ["foregroundColor", c.foregroundColor || ""],
+      ["backgroundColor", c.backgroundColor || ""],
+      ["linkColor", c.linkColor || ""],
+      ["errorColor", c.errorColor || ""],
+      ["primaryButtonForegroundColor", c.primaryButtonForegroundColor || ""],
+      ["primaryButtonBackgroundColor", c.primaryButtonBackgroundColor || ""],
+      ["secondaryButtonForegroundColor", c.secondaryButtonForegroundColor || ""],
+      ["secondaryButtonBackgroundColor", c.secondaryButtonBackgroundColor || ""],
     ];
 
     const first = document.getElementsByTagName("script")[0];

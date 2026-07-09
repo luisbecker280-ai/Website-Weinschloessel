@@ -3,29 +3,29 @@
  * -------------------------------------------------------------
  * Einwilligungs-Hinweis ("Cookie-Banner").
  *
- * EHRLICHKEIT IST PFLICHT (DSGVO): Diese Website setzt von sich aus
- * KEINE Tracking-Cookies und lädt KEINE externen Inhalte. Es wird nur
- * eine kleine technische Einstellung gespeichert (Ihre Entscheidung
- * hier) – das ist erlaubt und braucht keine Zustimmung.
+ * Diese Website setzt von sich aus KEINE Tracking-Cookies. Gespeichert
+ * wird nur Ihre Entscheidung hier. Die Zustimmung ("Akzeptieren") ist
+ * zugleich die Einwilligung dafür, dass externe Inhalte – aktuell das
+ * Online-Reservierungstool (DISH/METRO) – geladen werden dürfen.
  *
- * Der Banner ist daher vor allem eine VORBEREITUNG: Sobald später z. B.
- * Google Maps oder ein Reservierungssystem eingebunden wird, dürfen
- * solche externen Dienste erst nach einem Klick auf "Akzeptieren"
- * geladen werden. Andere Code-Teile können den Status so abfragen:
+ * Zentrale Verteilung: Bei jeder Entscheidung wird ein Ereignis
+ * ausgelöst (CONSENT_EVENT). So kann z. B. das Reservierungstool sofort
+ * reagieren und sich laden, ohne dass der Gast noch einmal extra klicken
+ * muss. Status abfragen:  if (CookieConsent.accepted()) { ... }
  *
- *     import { CookieConsent } from "./core/CookieConsent.js";
- *     if (CookieConsent.accepted()) { ...Karte laden... }
- *
- * Hinweis: Den genauen Text sollte vor dem Live-Gang ein Fachkundiger
- * (Datenschutz) prüfen.
+ * Hinweis: Den genauen Text vor dem Live-Gang fachkundig prüfen lassen.
  * -------------------------------------------------------------
  */
 const STORAGE_KEY = "ws-consent"; // Werte: "accepted" | "declined"
+export const CONSENT_EVENT = "ws-consent-changed";
 
 export class CookieConsent {
   constructor(app) {
     this.app = app;
     this.el = null;
+    // Wird ausgelöst, wenn IRGENDWO (Banner oder Reservieren-Knopf) eine
+    // Entscheidung fällt -> dann den Banner ausblenden.
+    this._onConsentChange = () => this._hide();
   }
 
   /** Liefert die gespeicherte Entscheidung (oder null). */
@@ -40,6 +40,17 @@ export class CookieConsent {
   /** true, wenn externe Dienste geladen werden dürfen. */
   static accepted() {
     return CookieConsent.state() === "accepted";
+  }
+
+  /** Zustimmung von außen erteilen (z. B. über den Reservieren-Knopf).
+   *  Speichert "accepted" und meldet es allen Teilen der Seite. */
+  static grant() {
+    try {
+      localStorage.setItem(STORAGE_KEY, "accepted");
+    } catch {
+      /* ignorieren */
+    }
+    window.dispatchEvent(new CustomEvent(CONSENT_EVENT, { detail: "accepted" }));
   }
 
   /** Beim Seitenstart: Banner nur zeigen, wenn noch keine Entscheidung vorliegt. */
@@ -69,9 +80,10 @@ export class CookieConsent {
     this.el.innerHTML = `
       <div class="consent__inner">
         <p class="consent__text">
-          Wir verwenden nur technisch notwendige Speicherung, damit diese
-          Seite funktioniert. Externe Inhalte (z. B. Karten) werden erst
-          nach Ihrer Zustimmung geladen. Mehr dazu in der
+          Wir verwenden technisch notwendige Speicherung, damit diese Seite
+          funktioniert. Mit „Akzeptieren“ willigen Sie außerdem ein, dass
+          externe Inhalte – wie das Online-Reservierungstool (DISH/METRO) –
+          geladen werden dürfen. Details in der
           <a href="#datenschutz" data-route="datenschutz">Datenschutzerklärung</a>.
         </p>
         <div class="consent__actions">
@@ -87,8 +99,9 @@ export class CookieConsent {
     });
 
     document.body.appendChild(this.el);
+    window.addEventListener(CONSENT_EVENT, this._onConsentChange);
     // kleine Verzögerung -> sanftes Einblenden
-    requestAnimationFrame(() => this.el.classList.add("is-visible"));
+    requestAnimationFrame(() => this.el && this.el.classList.add("is-visible"));
   }
 
   _decide(value) {
@@ -97,9 +110,17 @@ export class CookieConsent {
     } catch {
       /* localStorage gesperrt -> Entscheidung gilt nur für diesen Besuch */
     }
-    if (this.el) {
-      this.el.classList.remove("is-visible");
-      this.el.addEventListener("transitionend", () => this.el && this.el.remove(), { once: true });
-    }
+    // allen Teilen der Seite melden (das Reservierungstool lädt dann ggf. sofort)
+    window.dispatchEvent(new CustomEvent(CONSENT_EVENT, { detail: value }));
+  }
+
+  /** Banner sanft ausblenden und entfernen. */
+  _hide() {
+    window.removeEventListener(CONSENT_EVENT, this._onConsentChange);
+    const el = this.el;
+    this.el = null;
+    if (!el) return;
+    el.classList.remove("is-visible");
+    el.addEventListener("transitionend", () => el.remove(), { once: true });
   }
 }
