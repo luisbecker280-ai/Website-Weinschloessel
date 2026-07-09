@@ -435,6 +435,15 @@ export const content = {
             ],
           },
           {
+            sub: "Online-Reservierung mit DISH (METRO)",
+            p: [
+              "Auf dieser Website können Sie online einen Tisch reservieren. Hierfür verwenden wir das Reservierungstool „DISH Reservation“ der Hospitality Digital GmbH (ein Unternehmen der METRO-Gruppe), Metro-Straße 1, 40235 Düsseldorf.",
+              "Um den Datenschutz zu gewährleisten, wird das Reservierungstool beim ersten Betreten der Seite nicht automatisch geladen. Eine Verbindung zu den Servern von DISH (reservation.dish.co) wird erst hergestellt, wenn Sie das Tool selbst aktivieren bzw. eine entsprechende Einwilligung erteilen (Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO). Auf diese Weise wird verhindert, dass Ihre Daten bereits beim ersten Betreten der Seite an DISH übertragen werden.",
+              "Wenn Sie das Tool nutzen, werden die von Ihnen eingegebenen Reservierungsdaten (z. B. Name, Kontaktdaten, Datum, Uhrzeit und Personenzahl) sowie technische Daten (z. B. IP-Adresse) an DISH übermittelt und dort zur Durchführung Ihrer Reservierung verarbeitet.",
+              "Ihre Einwilligung können Sie jederzeit mit Wirkung für die Zukunft widerrufen. Weitere Informationen zum Umgang mit Nutzerdaten finden Sie in der Datenschutzerklärung von DISH unter: https://www.dish.co/.",
+            ],
+          },
+          {
             sub: "Quelle",
             p: ["https://www.e-recht24.de"],
           },
