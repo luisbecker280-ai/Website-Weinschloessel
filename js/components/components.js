@@ -64,7 +64,9 @@ export function splitRow({ id, image, imageSide = "left", panelHTML }) {
     <section class="split ${flip}"${id ? ` id="${id}"` : ""} data-reveal>
       ${mediaBlock(image, "split__media")}
       <div class="split__panel panel">
-        ${panelHTML}
+        <div class="panel__body">
+          ${panelHTML}
+        </div>
       </div>
     </section>`;
 }

@@ -39,7 +39,7 @@ function reducedMotion() {
  * @param {number} endY     Zielhöhe (Pixel von oben)
  * @param {number} duration Dauer in ms (größer = langsamer)
  */
-export function smoothScrollToY(endY, duration = 950) {
+export function smoothScrollToY(endY, duration) {
   endY = Math.max(0, Math.round(endY));
 
   if (reducedMotion()) {
@@ -51,10 +51,14 @@ export function smoothScrollToY(endY, duration = 950) {
   const distance = endY - startY;
   if (Math.abs(distance) < 2) return;
 
+  // Dauer abhängig von der Strecke: kurze Wege zügig, lange Wege deutlich
+  // langsamer (weiches, edles Gleiten). Ein fester Wert kann übergeben werden.
+  const dur = duration || Math.min(2600, Math.max(1200, Math.abs(distance) * 0.7));
+
   let startTime = null;
   function step(now) {
     if (startTime === null) startTime = now;
-    const t = Math.min(1, (now - startTime) / duration);
+    const t = Math.min(1, (now - startTime) / dur);
     window.scrollTo(0, startY + distance * easeInOutCubic(t));
     if (t < 1) requestAnimationFrame(step);
   }
@@ -68,7 +72,7 @@ export function smoothScrollToY(endY, duration = 950) {
  *        offset   = freizuhaltender Abstand oben (Höhe der Leiste)
  *        block    = "start" (oben unter der Leiste) oder "center" (mittig)
  */
-export function smoothScrollTo(target, { offset = 0, duration = 1000, block = "start" } = {}) {
+export function smoothScrollTo(target, { offset = 0, duration, block = "start" } = {}) {
   if (!target) return;
   const top = pageTop(target);
 

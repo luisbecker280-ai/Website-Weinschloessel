@@ -140,9 +140,15 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; /* Inhalt mittig */
-  text-align: center;
+  align-items: center; /* der Textblock als Ganzes sitzt mittig ... */
+  text-align: left; /* ... der Text darin ist aber linksbündig */
   overflow: hidden;
+}
+/* Der Inhalt bildet einen zusammenhängenden Block fester Breite
+   (linksbündig), der durch align-items:center mittig im Panel steht. */
+.panel__body {
+  width: 100%;
+  max-width: 32rem;
 }
 /* dezente Textur über dem Panel */
 .panel::before {
@@ -197,7 +203,7 @@
 }
 .panel__text {
   font-size: 1.05rem;
-  margin: 0 auto 1rem;
+  margin: 0 0 1rem;
   max-width: 46ch;
 }
 .panel__note {
@@ -210,31 +216,27 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.9rem;
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 0.6rem;
 }
 
-/* Event-Zeile: Tag | Datum | Uhrzeit – als zentrierter Block */
+/* Event-Zeile: Tag | Datum | Uhrzeit – linksbündig im Block */
 .event-row {
   display: grid;
   grid-template-columns: 7.5rem 6.5rem auto;
   gap: 0.5rem;
   font-size: 1.02rem;
   padding: 0.14rem 0;
-  max-width: 22rem;
-  margin: 0 auto;
   text-align: left;
 }
 
-/* Preis-Zeile: Name ........ Preis – als zentrierter Block */
+/* Preis-Zeile: Name ........ Preis – füllt die Blockbreite */
 .price-row {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
   font-size: 1.02rem;
   padding: 0.14rem 0;
-  max-width: 24rem;
-  margin: 0 auto;
   text-align: left;
 }
 .price-row__name {

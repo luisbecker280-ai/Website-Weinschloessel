@@ -115,7 +115,7 @@ export class Router {
       // Bin ich schon auf dieser Seite (z. B. "Startseite" auf der Startseite)?
       // Dann NICHT neu aufbauen, sondern nur sanft nach oben scrollen.
       if (this.current && this.current.id === id) {
-        smoothScrollToY(0, 950);
+        smoothScrollToY(0);
         this.app.navbar.setActive(id);
       } else {
         this.navigate(id);
@@ -140,7 +140,7 @@ export class Router {
   _scrollToSection(sectionId) {
     const go = () => {
       const el = document.getElementById(sectionId);
-      smoothScrollTo(el, { offset: this._headerH(), duration: 1000, block: "center" });
+      smoothScrollTo(el, { offset: this._headerH(), block: "center" });
       // Menüpunkt sofort markieren (nicht erst, wenn das Scrollen ankommt)
       this.app.navbar.setActive(sectionId);
     };

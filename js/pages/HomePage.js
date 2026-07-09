@@ -175,17 +175,16 @@ export class HomePage extends Page {
       <h2 class="panel__title">${r.title}</h2>
       <p class="panel__text">${r.lead}</p>
       <div class="panel__actions">
-        <a class="btn btn--on-olive" href="#reservieren-tool" data-scroll="reservieren-tool">Online reservieren</a>
         <a class="btn btn--on-olive btn--ghost" href="tel:${tel}">Anrufen: ${k.phone}</a>
       </div>`;
     const split = splitRow({ id: "reservieren", image: r.image, imageSide: r.imageSide, panelHTML });
 
-    // Weißer Bereich mit dem Online-Reservierungstool (DISH/METRO).
+    // Das Online-Reservierungstool (DISH/METRO) folgt DIREKT darunter und
+    // gehört zum Reservieren-Bereich – ohne separate Überschrift.
     // Der Container #reservierung-system wird von ReservationWidget gefüllt.
     const tool = `
-      <section class="reservation" id="reservieren-tool" data-reveal>
+      <section class="reservation" data-reveal>
         <div class="reservation__inner">
-          <h2 class="reservation__title">Online-Tischreservierung</h2>
           <div id="reservierung-system" class="reservation__mount"></div>
         </div>
       </section>`;
