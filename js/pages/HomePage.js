@@ -171,24 +171,17 @@ export class HomePage extends Page {
   _reservieren(r) {
     const k = content.kontakt;
     const tel = k.phone.replace(/\s+/g, "");
+    // Das Online-Reservierungstool (DISH/METRO) steht DIREKT im Reservieren-
+    // Panel – zusammen mit dem "Anrufen"-Knopf. Der Container
+    // #reservierung-system wird von ReservationWidget gefüllt.
     const panelHTML = `
       <h2 class="panel__title">${r.title}</h2>
       <p class="panel__text">${r.lead}</p>
       <div class="panel__actions">
         <a class="btn btn--on-olive btn--ghost" href="tel:${tel}">Anrufen: ${k.phone}</a>
-      </div>`;
-    const split = splitRow({ id: "reservieren", image: r.image, imageSide: r.imageSide, panelHTML });
-
-    // Das Online-Reservierungstool (DISH/METRO) folgt DIREKT darunter und
-    // gehört zum Reservieren-Bereich – ohne separate Überschrift.
-    // Der Container #reservierung-system wird von ReservationWidget gefüllt.
-    const tool = `
-      <section class="reservation" data-reveal>
-        <div class="reservation__inner">
-          <div id="reservierung-system" class="reservation__mount"></div>
-        </div>
-      </section>`;
-    return split + tool;
+      </div>
+      <div id="reservierung-system" class="reservation__mount"></div>`;
+    return splitRow({ id: "reservieren", image: r.image, imageSide: r.imageSide, panelHTML });
   }
 
   /* ---------- Abschlussbild ---------- */
