@@ -41,21 +41,23 @@ export class ReservationWidget {
     }
   }
 
-  /** Kurzer Hinweis mit einem Knopf, der zustimmt UND lädt. */
+  /** Kurzer Hinweis: Zustimmung erfolgt NUR über den Cookie-Hinweis.
+   *  Hier gibt es keinen eigenen Zustimmungs-Knopf – nur einen Verweis,
+   *  der die Cookie-Einstellungen öffnet. Nach "Akzeptieren" lädt sich das
+   *  Tool automatisch (über CONSENT_EVENT). */
   _prompt() {
     this.mount.innerHTML = `
       <div class="resv-gate">
         <p class="resv-gate__text">
-          Für die Online-Reservierung ist Ihre Zustimmung nötig. Dabei wird
-          das Tool von <strong>DISH / METRO</strong> geladen (Daten wie Ihre
-          IP-Adresse gehen an reservation.dish.co). Mehr in der
+          Für die Online-Reservierung akzeptieren Sie bitte die
+          Cookie-/Datenschutz-Einstellungen. Danach wird das Reservierungstool
+          automatisch freigeschaltet. Mehr in der
           <a href="#datenschutz" data-route="datenschutz">Datenschutzerklärung</a>.
         </p>
-        <button type="button" class="btn" data-accept-reserve>Zustimmen &amp; reservieren</button>
+        <button type="button" class="btn" data-cookie-settings>Cookie-Einstellungen öffnen</button>
       </div>`;
-    this.mount
-      .querySelector("[data-accept-reserve]")
-      .addEventListener("click", () => CookieConsent.grant());
+    // Der Knopf trägt data-cookie-settings und wird in app.js behandelt
+    // (öffnet den Cookie-Hinweis) – kein eigener Zustimmungs-Klick hier.
   }
 
   /** Das eigentliche DISH-Widget einbinden (nur einmal). */
