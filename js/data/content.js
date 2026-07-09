@@ -172,8 +172,8 @@ export const content = {
     phone: "+49 6343 1331",
     email: "info@ristorante-weinschloessel.de",
     web: "www.ristorante-weinschloessel.de",
-    // QR-Code Anfahrt: Datei unter assets/img/qr-anfahrt.png ablegen.
-    anfahrt: { label: "QR-Code Routenplanung", src: "assets/img/qr-anfahrt.png" },
+    // QR-Code Anfahrt: Datei unter assets/img/qr-anfahrt.jpg.
+    anfahrt: { label: "QR-Code Routenplanung", src: "assets/img/qr-anfahrt.jpg" },
     notice: "Liebe Gäste, bitte beachten Sie, dass Hunde in unserem Gastraum nicht erlaubt sind.",
   },
 
