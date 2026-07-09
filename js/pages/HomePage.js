@@ -14,6 +14,7 @@ import { content, site } from "../data/content.js";
 import { mediaBlock, splitRow, brandMark } from "../components/components.js";
 import { ScrollReveal } from "../core/ScrollReveal.js";
 import { Parallax } from "../core/Parallax.js";
+import { ReservationWidget } from "../core/ReservationWidget.js";
 
 export class HomePage extends Page {
   constructor(app) {
@@ -174,11 +175,21 @@ export class HomePage extends Page {
       <h2 class="panel__title">${r.title}</h2>
       <p class="panel__text">${r.lead}</p>
       <div class="panel__actions">
-        <a class="btn btn--on-olive" href="tel:${tel}">Anrufen: ${k.phone}</a>
-        <a class="btn btn--on-olive btn--ghost" href="mailto:${k.email}">E-Mail schreiben</a>
-      </div>
-      <div id="reservierung-system" class="reservation__embed" hidden></div>`;
-    return splitRow({ id: "reservieren", image: r.image, imageSide: r.imageSide, panelHTML });
+        <a class="btn btn--on-olive" href="#reservieren-tool" data-scroll="reservieren-tool">Online reservieren</a>
+        <a class="btn btn--on-olive btn--ghost" href="tel:${tel}">Anrufen: ${k.phone}</a>
+      </div>`;
+    const split = splitRow({ id: "reservieren", image: r.image, imageSide: r.imageSide, panelHTML });
+
+    // Weißer Bereich mit dem Online-Reservierungstool (DISH/METRO).
+    // Der Container #reservierung-system wird von ReservationWidget gefüllt.
+    const tool = `
+      <section class="reservation" id="reservieren-tool" data-reveal>
+        <div class="reservation__inner">
+          <h2 class="reservation__title">Online-Tischreservierung</h2>
+          <div id="reservierung-system" class="reservation__mount"></div>
+        </div>
+      </section>`;
+    return split + tool;
   }
 
   /* ---------- Abschlussbild ---------- */
@@ -218,6 +229,13 @@ export class HomePage extends Page {
       { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
     );
     map.forEach(([el]) => this.spy.observe(el));
+
+    // 4) Online-Reservierungstool (DISH/METRO) einbinden
+    const resvMount = container.querySelector("#reservierung-system");
+    if (resvMount) {
+      this.reservation = new ReservationWidget(resvMount);
+      this.reservation.render();
+    }
   }
 
   onUnmount() {

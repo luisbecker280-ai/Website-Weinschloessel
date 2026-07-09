@@ -182,7 +182,18 @@ export const content = {
     title: "Reservieren",
     image: { label: "Pizza", src: "assets/img/pizza.jpg" },
     imageSide: "right",
-    lead: "Wir freuen uns auf Ihren Besuch. Reservieren Sie ganz einfach telefonisch oder per E-Mail – unser Online-Reservierungssystem folgt in Kürze.",
+    lead: "Wir freuen uns auf Ihren Besuch. Reservieren Sie ganz bequem online, oder rufen Sie uns einfach an.",
+  },
+
+  /* ---------- ONLINE-RESERVIERUNG (DISH / METRO) ----------
+   * Das Widget wird von reservation.dish.co geladen. Aus Datenschutz-
+   * gründen laden wir es NICHT automatisch beim Seitenaufruf, sondern
+   * erst nach Zustimmung (Cookie-Banner) bzw. nach Klick auf
+   * "Reservierungstool laden". Die IDs stammen aus der METRO-Mail. */
+  reservierung: {
+    eid: "hydra-86d4ed35-1d0f-4d0d-a868-d047acceb6bd",
+    tagId: "hors-hydra-86d4ed35-1d0f-4d0d-a868-d047acceb6bd",
+    src: "https://reservation.dish.co/widget.js",
   },
 
   /* ---------- Abschlussbild über dem Footer ---------- */

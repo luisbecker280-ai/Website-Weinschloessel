@@ -172,6 +172,46 @@
   flex: 1 1 50%;
 }
 
+/* ===== Online-Reservierung (DISH/METRO) ===== */
+.reservation {
+  background: #ffffff;
+  padding: clamp(2.2rem, 5vw, 4rem) 1.25rem clamp(2.6rem, 6vw, 4.5rem);
+}
+.reservation__inner {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+.reservation__title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  color: var(--color-olive-dark);
+  margin-bottom: 1.6rem;
+}
+.reservation__mount {
+  min-height: 60px;
+}
+/* Datenschutz-Hinweis vor dem Laden des Tools */
+.resv-gate {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 1.6rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background: #faf9f5;
+}
+.resv-gate__text {
+  font-size: 0.95rem;
+  color: var(--color-text-soft);
+  margin-bottom: 1.1rem;
+}
+.resv-gate__text a {
+  color: var(--color-olive-dark);
+}
+
 /* ===== Abschlussbild ===== */
 .closing__media {
   width: 100%;
