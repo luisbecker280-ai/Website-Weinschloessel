@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2e2e2e" />
+  <meta name="description"
+        content="Ristorante Weinschlössel – Winelounge & Pizzeria in Bad Bergzabern. Italienische Küche, Pizza, Events, Partyservice und Prodotto di Piero. Jetzt online einen Tisch reservieren." />
+  <title>Ristorante Weinschlössel – Winelounge & Pizzeria in Bad Bergzabern</title>
+
+  <!-- Bevorzugte Adresse der Seite (verhindert doppelte Treffer bei Google) -->
+  <link rel="canonical" href="https://www.ristorante-weinschloessel.de/" />
+
+  <!-- Vorschau beim Teilen (WhatsApp, Facebook, Messenger) -->
+  <meta property="og:type" content="restaurant" />
+  <meta property="og:site_name" content="Ristorante Weinschlössel" />
+  <meta property="og:locale" content="de_DE" />
+  <meta property="og:title" content="Ristorante Weinschlössel – Winelounge & Pizzeria" />
+  <meta property="og:description"
+        content="Italienische Küche, Pizza, Events und Partyservice in Bad Bergzabern. Jetzt online einen Tisch reservieren." />
+  <meta property="og:url" content="https://www.ristorante-weinschloessel.de/" />
+  <meta property="og:image" content="https://www.ristorante-weinschloessel.de/assets/img/og-vorschau.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Angaben für Google (Adresse, Telefon, Öffnungszeiten direkt im Suchergebnis) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "Ristorante Weinschlössel",
+    "description": "Winelounge & Pizzeria mit italienischer Küche in Bad Bergzabern.",
+    "url": "https://www.ristorante-weinschloessel.de/",
+    "image": "https://www.ristorante-weinschloessel.de/assets/img/og-vorschau.jpg",
+    "telephone": "+4963431331",
+    "email": "info@ristorante-weinschloessel.de",
+    "servesCuisine": ["Italienisch", "Pizza"],
+    "priceRange": "€€",
+    "acceptsReservations": "True",
+    "hasMenu": "https://www.ristorante-weinschloessel.de/assets/pdf/speisekarte.pdf",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Kurtalstrasse 10",
+      "postalCode": "76887",
+      "addressLocality": "Bad Bergzabern",
+      "addressCountry": "DE"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Thursday", "Friday", "Saturday", "Sunday", "Monday"],
+        "opens": "11:30",
+        "closes": "14:30"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Thursday", "Friday", "Saturday", "Sunday", "Monday"],
+        "opens": "17:00",
+        "closes": "22:00"
+      }
+    ]
+  }
+  </script>
+
+  <!-- Favicon: eingebettetes gold-Oval mit "W" (kein externer Download) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cellipse cx='32' cy='32' rx='30' ry='24' fill='%23a8893f'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-style='italic' font-size='34' fill='white' text-anchor='middle'%3EW%3C/text%3E%3C/svg%3E" />
+
+  <!-- Wichtigste Schriften vorab laden (schnellerer, ruhigerer Aufbau) -->
+  <link rel="preload" href="assets/fonts/montserrat-400.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/cormorant-garamond-600.woff2" as="font" type="font/woff2" crossorigin />
+
+  <!-- Stylesheets in fester Reihenfolge: Schriften -> Variablen -> Basis -> Layout -> Komponenten -> Seiten -->
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/pages.css" />
+</head>
+<body>
+  <!-- Obere Navigationsleiste (wird von Navbar.js gefüllt) -->
+  <header class="site-header" id="site-header"></header>
+
+  <!-- Hier wird die jeweils aktive Seite eingesetzt (durch Router.js) -->
+  <main id="app" class="app"></main>
+
+  <!-- Fußbereich (wird von Footer.js gefüllt) -->
+  <footer class="site-footer" id="site-footer"></footer>
+
+  <!-- Einstiegspunkt der Anwendung. type="module" erlaubt import/export. -->
+  <script type="module" src="js/app.js"></script>
+
+  <!-- Hinweis, falls JavaScript deaktiviert ist -->
+  <noscript>
+    <p style="padding:1rem;text-align:center;">
+      Bitte aktivieren Sie JavaScript, um diese Website vollständig nutzen zu können.
+    </p>
+  </noscript>
+</body>
+</html>

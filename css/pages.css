@@ -1,0 +1,109 @@
+/* pages.css
+ * -------------------------------------------------------------
+ * Gestaltung der Unterseiten mit weißem Hintergrund:
+ * Impressum, Datenschutzerklärung, Reservieren.
+ * -------------------------------------------------------------
+ */
+
+.legal {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 6vw, 4.5rem) 1.4rem clamp(3rem, 7vw, 5rem);
+  color: var(--color-text);
+}
+
+/* Logo oben auf den Rechtsseiten */
+.legal__head {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.legal__title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  margin-bottom: 1.4rem;
+}
+.legal__subtitle {
+  color: var(--color-text-soft);
+  margin-bottom: 1.6rem;
+}
+.legal__lead {
+  font-size: 1.1rem;
+  max-width: 60ch;
+  margin-bottom: 2rem;
+}
+
+.legal__section {
+  margin-bottom: 2.2rem;
+}
+.legal__h2 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.4rem;
+  letter-spacing: 0.03em;
+  margin: 1.8rem 0 0.8rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--color-olive);
+  color: var(--color-olive-dark);
+}
+.legal__h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 1.2rem 0 0.4rem;
+}
+.legal__block {
+  margin-bottom: 1.2rem;
+}
+.legal p {
+  margin-bottom: 0.7rem;
+  color: #3a3a3a;
+  overflow-wrap: anywhere; /* lange URLs sauber umbrechen */
+}
+
+/* ===== Speise-/Weinkarte (eingebettetes PDF) ===== */
+.cardpage {
+  max-width: 1100px; /* breiter als die Rechtstexte, PDF braucht Platz */
+}
+.cardpage .legal__title {
+  text-align: center;
+}
+.pdfbox {
+  margin: 0.5rem 0 1.2rem;
+}
+.pdfbox__frame {
+  display: block;
+  width: 100%;
+  height: 82vh;            /* großer Lesebereich, bleibt in der Seite */
+  min-height: 520px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  background: #f6f5f0;
+}
+.pdfbox__fallback {
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+.pdfbox__fallback a {
+  color: var(--color-olive-dark);
+}
+.pdfbox__download {
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+/* ===== Reservieren ===== */
+.reservation__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.reservation__embed {
+  margin-top: 2rem;
+}

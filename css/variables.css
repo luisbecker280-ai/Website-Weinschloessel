@@ -1,0 +1,45 @@
+/* variables.css
+ * -------------------------------------------------------------
+ * Zentrale "Design-Stellschrauben" (Farben, Schriften, Abstände).
+ * Wenn ihr z. B. das Olivgrün ändern wollt, ändert ihr es nur hier
+ * an einer Stelle – und es wirkt auf der ganzen Website.
+ * -------------------------------------------------------------
+ */
+:root {
+  /* Farben */
+  --color-dark:        #2e2e2e;  /* Navigationsleiste / Footer */
+  --color-dark-2:      #262626;
+  --color-olive:       #8f8230;  /* die olivgrünen Info-Panels */
+  --color-olive-dark:  #837726;
+  --color-gold:        #c2a857;  /* Akzent / aktiver Menüpunkt */
+  --color-gold-strong: #a8893f;  /* Logo-Oval */
+  --color-text:        #2b2b2b;  /* normale Textfarbe (dunkel) */
+  --color-text-soft:   #5a5a5a;
+  --color-text-light:  #f4f2e9;  /* Text auf dunklem/olivem Grund */
+  --color-bg:          #ffffff;  /* Seitenhintergrund (weiß) */
+  --color-line:        #e3e0d6;
+
+  /* Blaue Bild-Platzhalter */
+  --color-ph-a:        #3a6ea5;
+  --color-ph-b:        #2b5681;
+
+  /* Maße */
+  --header-h:          64px;     /* Höhe der oberen Leiste */
+  --maxw:              1280px;   /* maximale Inhaltsbreite */
+  --radius:            4px;
+
+  /* Schriften – SELBST gehostet (siehe fonts.css), daher DSGVO-konform.
+   * Cormorant Garamond = edle Überschriften, Montserrat = ruhiger Text.
+   * Die nachfolgenden System-Schriften greifen nur, falls eine Datei
+   * einmal nicht laden sollte.                                        */
+  --font-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-sans:  "Montserrat", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+
+  /* Bewegung */
+  --ease:   cubic-bezier(0.22, 0.61, 0.36, 1);
+  --shadow: 0 12px 34px rgba(0, 0, 0, 0.14);
+
+  /* Feine Papier-/Stoff-Textur (als Inline-SVG, kein externer Download).
+   * Wird dezent über die olivgrünen Panels gelegt.                    */
+  --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+}

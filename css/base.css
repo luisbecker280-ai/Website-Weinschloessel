@@ -1,0 +1,93 @@
+/* base.css
+ * -------------------------------------------------------------
+ * Grundlegendes: Reset, Typografie, Links, Animationen.
+ * -------------------------------------------------------------
+ */
+
+/* --- kleiner Reset --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Das weiche Scrollen steuern wir selbst per JavaScript
+     (siehe smoothScroll.js) – daher hier bewusst "auto". */
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* Sticky-Footer: Inhalt füllt mind. die ganze Höhe, der Footer
+     sitzt dadurch immer ganz unten – auch bei kurzen Seiten. */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+h1, h2, h3, p {
+  margin: 0;
+}
+
+/*
+ * SPÄTER schönere Schriften selbst hosten (DSGVO-konform, ohne Google):
+ * Schrift-Dateien (z. B. .woff2) nach assets/fonts/ legen und hier aktivieren.
+ *
+ * @font-face {
+ *   font-family: "Cinzel";
+ *   src: url("../assets/fonts/Cinzel.woff2") format("woff2");
+ *   font-display: swap;
+ * }
+ * Danach in variables.css --font-serif: "Cinzel", Georgia, serif; setzen.
+ */
+
+/* --- Einblenden beim Scrollen (siehe ScrollReveal.js) --- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Seitenwechsel-Animation (Router fügt .is-entering hinzu) --- */
+/* Jede Seite liegt in einer eigenen Hülle .page-view; nur die aktive
+   ist sichtbar, die anderen sind per [hidden] ausgeblendet. */
+.page-view[hidden] {
+  display: none;
+}
+.page-view.is-entering {
+  animation: pageIn 0.5s var(--ease);
+}
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* --- Barrierefreiheit: Nutzer, die wenig Animation wünschen --- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+  [data-reveal] { opacity: 1; transform: none; }
+}

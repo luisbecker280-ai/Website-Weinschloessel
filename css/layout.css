@@ -1,0 +1,313 @@
+/* layout.css
+ * -------------------------------------------------------------
+ * Großes Seitengerüst: obere Leiste, Hero, geteilte Zeilen, Footer.
+ * -------------------------------------------------------------
+ */
+
+/* ===== Obere Navigationsleiste ===== */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-h);
+  z-index: 100;
+  background: rgba(46, 46, 46, 0.92);
+  backdrop-filter: blur(6px);
+  transition: background 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+.site-header.is-scrolled {
+  background: rgba(30, 30, 30, 0.97);
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.25);
+}
+
+.nav {
+  max-width: var(--maxw);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: clamp(0.6rem, 2.2vw, 2.1rem);
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.nav__link {
+  color: #d6d4cd;
+  text-decoration: none;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.4rem 0;
+  position: relative;
+  transition: color 0.25s var(--ease);
+  white-space: nowrap;
+}
+/* feiner gold-Strich unter dem aktiven/gehoverten Punkt */
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s var(--ease);
+}
+.nav__link:hover,
+.nav__link.is-active {
+  color: var(--color-gold);
+}
+.nav__link:hover::after,
+.nav__link.is-active::after {
+  transform: scaleX(1);
+}
+
+/* Burger-Knopf (nur auf kleinen Bildschirmen sichtbar) */
+.nav__toggle {
+  display: none;
+  position: absolute;
+  right: 1.1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 32px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  padding: 6px;
+}
+.nav__toggle span {
+  display: block;
+  height: 2px;
+  background: var(--color-gold);
+  margin: 5px 0;
+  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+}
+
+/* ===== Inhaltsbereich ===== */
+.app {
+  padding-top: var(--header-h);
+  flex: 1 0 auto; /* füllt den Platz, schiebt den Footer nach ganz unten */
+}
+
+/* ===== Hero (Startseite) ===== */
+.hero {
+  background: #ffffff;
+}
+.hero__brand {
+  text-align: center;
+  padding: clamp(2.5rem, 7vw, 5.5rem) 1rem clamp(2rem, 5vw, 3.5rem);
+}
+.hero__media {
+  width: 100%;
+  aspect-ratio: 16 / 6;
+  min-height: 260px;
+}
+/* Hinweis: Das Hero-Foto wird in Farbe gezeigt. Falls ihr es doch in
+   Schwarz-Weiß möchtet, hier wieder einen Filter setzen, z. B.:
+   .hero__media .media__img { filter: grayscale(100%) contrast(1.05); } */
+
+/* ===== Schmaler Karten-Streifen (Speise- & Weinkarte) ===== */
+.cards-strip {
+  position: relative;
+  background: #ffffff;
+  color: var(--color-text);
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+  text-align: center;
+  /* bewusst SCHMAL: deutlich weniger hoch als die normalen Zeilen */
+  padding: clamp(1.6rem, 3.2vw, 2.4rem) 1.25rem;
+}
+.cards-strip__inner {
+  position: relative;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.cards-strip__title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+  color: var(--color-olive-dark);
+  margin: 0;
+}
+.cards-strip__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+}
+
+/* ===== Geteilte Zeile: Bild + olivgrünes Panel ===== */
+.split {
+  display: flex;
+  align-items: stretch;
+  min-height: clamp(320px, 42vw, 520px);
+}
+.split--flip {
+  flex-direction: row-reverse;
+}
+.split__media {
+  flex: 1 1 50%;
+}
+.split__panel {
+  flex: 1 1 50%;
+}
+
+/* ===== Online-Reservierung (DISH/METRO) – direkt im Reservieren-Panel ===== */
+/* Das Tool sitzt als heller Kasten im olivgrünen Panel, unter dem
+   "Anrufen"-Knopf. */
+.reservation__mount {
+  width: 100%;
+  margin-top: 1.4rem;
+  padding: 1.1rem;
+  background: #ffffff;
+  border-radius: var(--radius);
+  color: var(--color-text);
+  min-height: 60px;
+}
+/* Datenschutz-Hinweis vor dem Laden des Tools */
+.resv-gate__text {
+  font-size: 0.92rem;
+  color: var(--color-text-soft);
+  margin-bottom: 1rem;
+}
+.resv-gate__text a {
+  color: var(--color-olive-dark);
+}
+
+/* ===== Abschlussbild ===== */
+.closing__media {
+  width: 100%;
+  aspect-ratio: 21 / 7;
+  min-height: 240px;
+}
+
+/* ===== Footer ===== */
+.site-footer {
+  background: var(--color-dark);
+  color: #cfcdc6;
+}
+.site-footer__inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+.site-footer__social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--color-dark);
+  transition: transform 0.25s var(--ease), background 0.25s var(--ease);
+}
+.site-footer__social:hover {
+  transform: translateY(-3px);
+  background: var(--color-gold);
+}
+.site-footer__links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.site-footer__links a {
+  color: #cfcdc6;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-size: 0.9rem;
+  transition: color 0.25s var(--ease);
+}
+.site-footer__links a:hover {
+  color: var(--color-gold);
+}
+/* "Cookie-Einstellungen" ist ein Button, sieht aber aus wie ein Link */
+.site-footer__cookie {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  color: #cfcdc6;
+  font: inherit;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.25s var(--ease);
+}
+.site-footer__cookie:hover {
+  color: var(--color-gold);
+}
+
+/* ===== Responsive: Tablet/Smartphone ===== */
+@media (max-width: 860px) {
+  .nav {
+    justify-content: flex-start;
+  }
+  .nav__toggle {
+    display: block;
+  }
+  .nav__list {
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    right: 0;
+    background: rgba(30, 30, 30, 0.98);
+    flex-direction: column;
+    gap: 0;
+    padding: 0.5rem 0 1rem;
+    transform: translateY(-130%);
+    transition: transform 0.35s var(--ease);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  }
+  .site-header.is-open .nav__list {
+    transform: translateY(0);
+  }
+  .nav__item {
+    width: 100%;
+    text-align: center;
+  }
+  .nav__link {
+    display: block;
+    padding: 0.85rem 0;
+  }
+  .nav__link::after { display: none; }
+
+  /* Burger -> X, wenn geöffnet */
+  .site-header.is-open .nav__toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .site-header.is-open .nav__toggle span:nth-child(2) { opacity: 0; }
+  .site-header.is-open .nav__toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Bild + Panel untereinander stapeln (Bild immer oben) */
+  .split,
+  .split--flip {
+    flex-direction: column;
+  }
+  .split__media {
+    min-height: 240px;
+  }
+}
