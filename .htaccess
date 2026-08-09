@@ -1,0 +1,66 @@
+# =============================================================
+#  Server-Einstellungen für klassisches Webhosting (Apache)
+#  – z. B. All-Inkl, IONOS, Strato, Netcup.
+#
+#  Diese Datei wird vom Server automatisch gelesen. Sie muss im
+#  obersten Ordner der Website liegen (dort, wo index.html liegt).
+#  Auf GitHub Pages hat sie keine Wirkung – das ist unschädlich.
+# =============================================================
+
+# ---- 1) Immer verschlüsselt (https) und immer mit "www." --------------
+# Sorgt dafür, dass es die Seite nur unter EINER Adresse gibt:
+# https://www.ristorante-weinschloessel.de
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # http -> https
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://www.ristorante-weinschloessel.de/$1 [R=301,L]
+
+  # ohne www -> mit www
+  RewriteCond %{HTTP_HOST} !^www\. [NC]
+  RewriteRule ^(.*)$ https://www.ristorante-weinschloessel.de/$1 [R=301,L]
+</IfModule>
+
+# ---- 2) Eigene Fehlerseite -------------------------------------------
+ErrorDocument 404 /404.html
+
+# ---- 3) Dateien komprimiert ausliefern (schnelleres Laden) -----------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ---- 4) Zwischenspeicher im Browser ----------------------------------
+# Bilder/Schriften lange, HTML gar nicht (damit Änderungen sofort ankommen).
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/jpeg           "access plus 1 year"
+  ExpiresByType image/png            "access plus 1 year"
+  ExpiresByType image/svg+xml        "access plus 1 year"
+  ExpiresByType font/woff2           "access plus 1 year"
+  ExpiresByType application/pdf      "access plus 1 week"
+  ExpiresByType text/css             "access plus 1 day"
+  ExpiresByType application/javascript "access plus 1 day"
+  ExpiresByType text/html            "access plus 0 seconds"
+</IfModule>
+
+# ---- 5) Sicherheits-Kopfzeilen ---------------------------------------
+<IfModule mod_headers.c>
+  # Browser soll Dateitypen nicht "erraten"
+  Header set X-Content-Type-Options "nosniff"
+  # Seite darf nicht in fremde Seiten eingebettet werden (Schutz vor Klick-Betrug)
+  Header set X-Frame-Options "SAMEORIGIN"
+  # Beim Verlassen der Seite nur die Domain weitergeben, nicht die genaue Adresse
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  # Kamera/Mikrofon/Standort werden von dieser Seite nicht benötigt
+  Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+# ---- 6) Verzeichnis-Auflistung verbieten -----------------------------
+Options -Indexes
+
+# ---- 7) Richtige Zeichenkodierung ------------------------------------
+AddDefaultCharset UTF-8
